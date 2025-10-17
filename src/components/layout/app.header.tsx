@@ -9,6 +9,8 @@ import { NavDropdown } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import { useCurrentApp } from "../context/app.context";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 type ThemeContextType = "light" | "dark";
 
 const viFlag = "/assets/svg/language/vi.svg";
@@ -19,6 +21,14 @@ function AppHeader() {
   const { t, i18n } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const currentPath = usePathname();
+
+  const getNavLinkClass = (path: string) => {
+    // So sánh đường dẫn hiện tại với đường dẫn mục tiêu
+    // Nếu trùng, thêm class 'active' (hoặc class CSS bạn dùng để highlight)
+    // Nếu không, chỉ giữ lại class 'nav-link'
+    return `nav-link ${currentPath === path ? "active" : ""}`;
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -77,14 +87,22 @@ function AppHeader() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Link className="nav-link" href="/" onClick={closeNav}>
+            <Link className={getNavLinkClass("/")} href="/" onClick={closeNav}>
               {t("appHeader.home")}
             </Link>
-            <Link className="nav-link" href="/project" onClick={closeNav}>
+            <Link
+              className={getNavLinkClass("/project")}
+              href="/project"
+              onClick={closeNav}
+            >
               {" "}
               {t("appHeader.project")}
             </Link>
-            <Link className="nav-link" href="/about" onClick={closeNav}>
+            <Link
+              className={getNavLinkClass("/about")}
+              href="/about"
+              onClick={closeNav}
+            >
               {t("appHeader.about")}
             </Link>
           </Nav>
