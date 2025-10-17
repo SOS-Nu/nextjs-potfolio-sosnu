@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: "Le Van Nguyen Portfolio",
     images: [
       {
-        url: "https://levannguyen.pro/og-image.png",
+        url: "https://raw.githubusercontent.com/SOS-Nu/nextjs-potfolio-sosnu/refs/heads/master/public/levannguyen.jpg",
         width: 1200,
         height: 630,
       },

@@ -1,5 +1,5 @@
 "use client";
-import { Col, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import ProjectCard from "./project.card";
 import ProjectCardFeatured from "./project.card.featured";
 import GlowCard from "@/components/share/glow-card";
@@ -14,66 +14,84 @@ const Project = () => {
 
   return (
     <>
-      <Row>
-        <Col xs={12} className="text-center mt-md-0 mt-6">
-          <h3 className="text-center mt-md-3">
-            My Recent <span className="brand-red">Works</span>
-          </h3>
-          <h6 className="text-center mb-md-2  mb-2">
-            Here are a few projects I&apos;ve worked on recently.
-          </h6>
-        </Col>
-      </Row>
-      <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-        <Row
+      {" "}
+      <div className="project-screen">
+        <div
           style={{
-            justifyContent: "center",
-            paddingBottom: "10px",
-            paddingRight: "0px",
-            paddingLeft: "0px",
+            backgroundImage: `url("assets/top-bg.svg")`,
+            width: "100%",
+            height: 500,
+            position: "absolute",
+            top: 0,
+            backgroundRepeat: "repeat",
+            zIndex: 0,
           }}
-        >
-          {" "}
-          {PROJECTSFeatured?.map((item) => {
-            return (
-              <Col md={8} className="project-card" key={item.id}>
-                <GlowCard
-                  identifier="project-1"
-                  autoRotate={true}
-                  proximity={0}
-                >
-                  <ProjectCardFeatured
-                    imgPath={item.imgPath}
-                    title={item.title}
-                    description={item.description}
-                    githubLink={item.githubLink}
-                    githubLink1={item.githubLink1}
-                    demoLink={item.demoLink}
-                    youtubeVideoId={item.youtubeVideoId}
-                    currentLanguage={currentLanguage}
-                  />
-                </GlowCard>
+        ></div>
+        <section className="mt-md-2 mt-2 pt-md-5 pt-0">
+          <Container>
+            <Row>
+              <Col xs={12} className="text-center mt-md-0 mt-6">
+                <h3 className="text-center mt-md-3">
+                  My Recent <span className="brand-red">Works</span>
+                </h3>
+                <h6 className="text-center mb-md-2  mb-2">
+                  Here are a few projects I&apos;ve worked on recently.
+                </h6>
               </Col>
-            );
-          })}
-        </Row>
+            </Row>
+            <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
+              <Row
+                style={{
+                  justifyContent: "center",
+                  paddingBottom: "10px",
+                  paddingRight: "0px",
+                  paddingLeft: "0px",
+                }}
+              >
+                {" "}
+                {PROJECTSFeatured?.map((item) => {
+                  return (
+                    <Col md={8} className="project-card" key={item.id}>
+                      <GlowCard
+                        identifier="project-1"
+                        autoRotate={true}
+                        proximity={0}
+                      >
+                        <ProjectCardFeatured
+                          imgPath={item.imgPath}
+                          title={item.title}
+                          description={item.description}
+                          githubLink={item.githubLink}
+                          githubLink1={item.githubLink1}
+                          demoLink={item.demoLink}
+                          youtubeVideoId={item.youtubeVideoId}
+                          currentLanguage={currentLanguage}
+                        />
+                      </GlowCard>
+                    </Col>
+                  );
+                })}
+              </Row>
 
-        {PROJECTS?.map((item) => {
-          return (
-            <Col md={4} className="project-card" key={item.id}>
-              <ProjectCard
-                imgPath={item.imgPath}
-                title={item.title}
-                description={item.description}
-                githubLink={item.githubLink}
-                demoLink={item.demoLink}
-                currentLanguage={currentLanguage}
-              />
-            </Col>
-          );
-        })}
-      </Row>
-      <div className="mb-7"></div>
+              {PROJECTS?.map((item) => {
+                return (
+                  <Col md={4} className="project-card" key={item.id}>
+                    <ProjectCard
+                      imgPath={item.imgPath}
+                      title={item.title}
+                      description={item.description}
+                      githubLink={item.githubLink}
+                      demoLink={item.demoLink}
+                      currentLanguage={currentLanguage}
+                    />
+                  </Col>
+                );
+              })}
+            </Row>
+            <div className="mb-7"></div>
+          </Container>
+        </section>
+      </div>
     </>
   );
 };
