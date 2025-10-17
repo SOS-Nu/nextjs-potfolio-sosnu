@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Le Van Nguyen Portfolio | levannguyen.pro",
     short_name: "Le Van Nguyen",
     description:
-      "Trang web cá nhân của Lê Văn Nguyên (levannguyen.pro). Lê Văn Nguyên là ai? Sos nu là ai? Khám phá các dự án và thông tin về tôi tại đây.",
+      "Trang web cá nhân của Lê Văn Nguyên (SOS Nu) Portfolio. Lê Văn Nguyên là ai? Sos nu là ai? Khám phá các dự án và thông tin về tôi tại đây.",
     icons: [
       {
         src: "/logo_192x192.png",

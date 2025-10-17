@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "lập trình viên",
   ],
   openGraph: {
-    title: "Le Van Nguyen Portfolio | levannguyen.pro",
+    title: "Le Van Nguyen Portfolio | SOS Nu",
     description: "Khám phá các dự án và thông tin về Lê Văn Nguyên.",
     url: "https://levannguyen.pro",
     siteName: "Le Van Nguyen Portfolio",
