@@ -1,0 +1,46 @@
+{
+  "appHeader": {
+    "brand": "Lê Văn Nguyên (SOS Nu)",
+    "home": "Trang chủ",
+    "project": "Dự án",
+    "contact": "Liên hệ",
+    "about": "Về tác giả"
+  },
+  "heroSection": {
+    "exp": "Kinh nghiệm",
+    "cv": "Tải Resume"
+  },
+  "introSection": {
+    "about": "Giới thiệu",
+    "and": "và",
+    "heading1": "Yêu đơn phương lập trình và tôi tin rằng mình đã học hỏi được ít nhiều điều gì đó. 🤷‍♂️",
+    "heading2": "Tôi nắm vững các ngôn ngữ huyền thoại như là",
+    "heading3": "Lĩnh vực quan tâm của tôi là",
+    "heading4": "xây dựng các công nghệ web mới và các sản phẩm liên quan",
+    "heading5": "Bất cứ khi nào có thể, tôi cũng áp dụng niềm đam mê phát triển sản phẩm của mình với"
+  },
+  "experience": {
+    "title": "Kinh nghiệm làm việc"
+  },
+  "skill": {
+    "title": "Kỹ năng"
+  },
+  "aboutPage": {
+    "title1": "Đôi nét",
+    "title2": "Về tôi",
+    "greeting": "Chào mọi người, mình là SOSNu đến từ Thành phố Hồ Chí Minh, Việt Nam.",
+    "job": "Hiện tại mình đang là một lập trình viên tự do (start-up).",
+    "degreeInfo": "Mình đã hoàn thành bằng Cử nhân Công nghệ thông tin tại ĐẠI HỌC CÔNG NGHIỆP TP.HCM (IUH).",
+    "hobbiesTitle": "Ngoài việc lập trình, một vài hoạt động khác mà mình rất thích!",
+    "hobby1": "Chơi game",
+    "hobby2": "Viết Blog công nghệ",
+    "hobby3": "Du lịch",
+    "quote": "\"Nhân vô học bất tri tồn.\"",
+    "quoteAuthor": "--Lê Văn Nguyên (SOS Nu)--",
+    "educationTitle": "Học vấn",
+    "degree": "Kỹ sư phần mềm",
+    "university": "ĐẠI HỌC CÔNG NGHIỆP TP.HCM (IUH)",
+    "findMeOn": "TÌM TÔI TRÊN",
+    "contactMe": "Liên hệ với tôi"
+  }
+}

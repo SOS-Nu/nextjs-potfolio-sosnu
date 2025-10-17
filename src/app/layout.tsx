@@ -1,32 +1,24 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Lê Văn Nguyên's Portfolio",
-  description: "The portfolio of Lê Văn Nguyên, a web developer.",
-};
+import { AppContextProvider } from "@/components/context/app.context";
+import "@/styles/global.scss";
+import I18nProvider from "@/components/I18nProvider";
+import AppHeader from "@/components/layout/app.header";
+import AppFooter from "@/components/layout/app.footer";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+      <body>
+        <AppContextProvider>
+          <I18nProvider>
+            <AppHeader />
+            {children}
+            <AppFooter />
+          </I18nProvider>
+        </AppContextProvider>
       </body>
     </html>
   );

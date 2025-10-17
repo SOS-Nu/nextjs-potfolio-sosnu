@@ -1,0 +1,28 @@
+/* AboutPage.css */
+
+/* Style cho màn hình lớn (desktop) */
+.hero-background {
+  background-image: url("/assets/hero.svg"); /* Cập nhật lại đường dẫn nếu cần */
+  width: 100%;
+  height: 500px;
+  position: absolute;
+  top: 10px;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Style cho màn hình nhỏ (mobile)
+  Áp dụng cho các màn hình có chiều rộng tối đa là 768px
+*/
+@media (max-width: 768px) {
+  .hero-background {
+    /* Điều chỉnh vị trí của background tại đây */
+    background-position: top center; /* Ví dụ: căn lên trên và ở giữa */
+    top: 50px;
+    width: 100%;
+    height: 500px;
+
+    /* Bạn cũng có thể điều chỉnh các thuộc tính khác */
+    background-size: cover; /* Ví dụ: hiển thị toàn bộ ảnh */
+  }
+}

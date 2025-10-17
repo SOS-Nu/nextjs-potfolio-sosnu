@@ -1,0 +1,155 @@
+export const skillsImage = (skill: string) => {
+  const skillID = skill.toLowerCase();
+  switch (skillID) {
+    case "gcp":
+      return "/assets/svg/skills/gcp.svg";
+    case "html":
+      return "/assets/svg/skills/html.svg";
+    case "photoshop":
+      return "/assets/svg/skills/photoshop.svg";
+    case "docker":
+      return "/assets/svg/skills/docker.svg";
+    case "illustrator":
+      return "/assets/svg/skills/illustrator.svg";
+    case "adobe xd":
+      return "/assets/svg/skills/adobe-xd.svg";
+    case "after effects":
+      return "/assets/svg/skills/after-effects.svg";
+    case "css":
+      return "/assets/svg/skills/css.svg";
+    case "angular":
+      return "/assets/svg/skills/angular.svg";
+    case "javascript":
+      return "/assets/svg/skills/javascript.svg";
+    case "next js":
+      return "/assets/svg/skills/nextJS.svg";
+    case "nuxt js":
+      return "/assets/svg/skills/nuxtJS.svg";
+    case "react":
+      return "/assets/svg/skills/react.svg";
+    case "svelte":
+      return "/assets/svg/skills/svelte.svg";
+    case "typescript":
+      return "/assets/svg/skills/typescript.svg";
+    case "vue":
+      return "/assets/svg/skills/vue.svg";
+    case "bootstrap":
+      return "/assets/svg/skills/bootstrap.svg";
+    case "bulma":
+      return "/assets/svg/skills/bulma.svg";
+    case "capacitorjs":
+      return "/assets/svg/skills/capacitorjs.svg";
+    case "coffeescript":
+      return "/assets/svg/skills/coffeescript.svg";
+    case "memsql":
+      return "/assets/svg/skills/memsql.svg";
+    case "mongodb":
+      return "/assets/svg/skills/mongoDB.svg";
+    case "mysql":
+      return "/assets/svg/skills/mysql.svg";
+    case "postgresql":
+      return "/assets/svg/skills/postgresql.svg";
+    case "tailwind":
+      return "/assets/svg/skills/tailwind.svg";
+    case "vitejs":
+      return "/assets/svg/skills/vitejs.svg";
+    case "vuetifyjs":
+      return "/assets/svg/skills/vuetifyjs.svg";
+    case "c":
+      return "/assets/svg/skills/c.svg";
+    case "c++":
+      return "/assets/svg/skills/cplusplus.svg";
+    case "c#":
+      return "/assets/svg/skills/csharp.svg";
+    case "dart":
+      return "/assets/svg/skills/dart.svg";
+    case "go":
+      return "/assets/svg/skills/go.svg";
+    case "java":
+      return "/assets/svg/skills/java.svg";
+    case "kotlin":
+      return "/assets/svg/skills/kotlin.svg";
+    case "julia":
+      return "/assets/svg/skills/julia.svg";
+    case "matlab":
+      return "/assets/svg/skills/matlab.svg";
+    case "php":
+      return "/assets/svg/skills/php.svg";
+    case "python":
+      return "/assets/svg/skills/python.svg";
+    case "ruby":
+      return "/assets/svg/skills/ruby.svg";
+    case "swift":
+      return "/assets/svg/skills/swift.svg";
+    case "adobe audition":
+      return "/assets/svg/skills/adobeaudition.svg";
+    case "aws":
+      return "/assets/svg/skills/aws.svg";
+    case "deno":
+      return "/assets/svg/skills/deno.svg";
+    case "django":
+      return "/assets/svg/skills/django.svg";
+    case "firebase":
+      return "/assets/svg/skills/firebase.svg";
+    case "gimp":
+      return "/assets/svg/skills/gimp.svg";
+    case "git":
+      return "/assets/svg/skills/git.svg";
+    case "graphql":
+      return "/assets/svg/skills/graphql.svg";
+    case "lightroom":
+      return "/assets/svg/skills/lightroom.svg";
+    case "materialui":
+      return "/assets/svg/skills/materialui.svg";
+    case "nginx":
+      return "/assets/svg/skills/nginx.svg";
+    case "numpy":
+      return "/assets/svg/skills/numpy.svg";
+    case "opencv":
+      return "/assets/svg/skills/opencv.svg";
+    case "premiere pro":
+      return "/assets/svg/skills/premierepro.svg";
+    case "pytorch":
+      return "/assets/svg/skills/pytorch.svg";
+    case "selenium":
+      return "/assets/svg/skills/selenium.svg";
+    case "strapi":
+      return "/assets/svg/skills/strapi.svg";
+    case "tensorflow":
+      return "/assets/svg/skills/tensorflow.svg";
+    case "webix":
+      return "/assets/svg/skills/webix.svg";
+    case "wordpress":
+      return "/assets/svg/skills/wordpress.svg";
+    case "azure":
+      return "/assets/svg/skills/azure.svg";
+    case "blender":
+      return "/assets/svg/skills/blender.svg";
+    case "fastify":
+      return "/assets/svg/skills/fastify.svg";
+    case "figma":
+      return "/assets/svg/skills/figma.svg";
+    case "flutter":
+      return "/assets/svg/skills/flutter.svg";
+    case "haxe":
+      return "/assets/svg/skills/haxe.svg";
+    case "ionic":
+      return "/assets/svg/skills/ionic.svg";
+    case "markdown":
+      return "/assets/svg/skills/markdown.svg";
+    case "microsoft office":
+      return "/assets/svg/skills/microsoftoffice.svg";
+    case "picsart":
+      return "/assets/svg/skills/picsart.svg";
+    case "sketch":
+      return "/assets/svg/skills/sketch.svg";
+    case "unity":
+      return "/assets/svg/skills/unity.svg";
+    case "wolframalpha":
+      return "/assets/svg/skills/wolframalpha.svg";
+    case "canva":
+      return "/assets/svg/skills/canva.svg";
+    default:
+      break;
+  }
+};

@@ -1,0 +1,46 @@
+{
+  "appHeader": {
+    "brand": "Le Van Nguyen (SOS Nu)",
+    "home": "Home",
+    "project": "Project",
+    "contact": "Contact",
+    "about": "About"
+  },
+  "heroSection": {
+    "exp": "My Skill",
+    "cv": "Get Resume"
+  },
+  "introSection": {
+    "about": "About me",
+    "and": "and",
+    "heading1": "I fell in love with programming and I have at least learnt something, I think… 🤷‍♂️",
+    "heading2": "I am fluent in classics like",
+    "heading3": "My field of Interest's are building new",
+    "heading4": "Web Technologies and Products",
+    "heading5": "Whenever possible, I also apply my passion for developing products with"
+  },
+  "experience": {
+    "title": "Experiences"
+  },
+  "skill": {
+    "title": "Skills"
+  },
+  "aboutPage": {
+    "title1": "Know Who",
+    "title2": "I'M",
+    "greeting": "Hi Everyone, I am SOSNu from Ho Chi Minh, VietNam.",
+    "job": "I am currently employed as a freelance dev (start-up).",
+    "degreeInfo": "I have completed Bachelor's degree in Information Technology at INDUSTRIAL UNIVERSITY OF HCM CITY (IUH).",
+    "hobbiesTitle": "Apart from coding, some other activities that I love to do!",
+    "hobby1": "Playing Games",
+    "hobby2": "Writing Tech Blogs",
+    "hobby3": "Travelling",
+    "quote": "\"Humans cannot survive without learning.\"",
+    "quoteAuthor": "--Le Van Nguyen (SOS Nu)--",
+    "educationTitle": "Education",
+    "degree": "Software Engineer",
+    "university": "INDUSTRIAL UNIVERSITY OF HCM CITY (IUH)",
+    "findMeOn": "FIND ME ON",
+    "contactMe": "Contact me"
+  }
+}
