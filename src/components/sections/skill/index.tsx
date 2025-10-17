@@ -10,6 +10,7 @@ import "swiper/css";
 import "./skill.scss";
 import { SKILLS_DATA } from "@/helpers/data";
 import { skillsImage } from "@/helpers/skill.image";
+import Image from "next/image";
 
 const Skill = () => {
   const { t } = useTranslation();
@@ -46,11 +47,12 @@ const Skill = () => {
             <SwiperSlide key={id} style={{ width: "auto" }}>
               <div className="skill-item">
                 <div className="skill-card">
-                  <img
-                    src={skillsImage(skill)}
+                  <Image
+                    src={skillsImage(skill)!}
                     alt={skill}
                     width={40}
                     height={40}
+                    // Không cần thuộc tính style/className nếu kích thước đã được thiết lập qua width/height
                   />
                   <p className="skill-name">{skill}</p>
                 </div>

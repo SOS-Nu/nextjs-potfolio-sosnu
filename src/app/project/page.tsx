@@ -13,7 +13,7 @@ const ProjectPage = () => {
     <div className="project-screen">
       <div
         style={{
-          backgroundImage: `url("assets/top-bg.svg"))`,
+          backgroundImage: `url("assets/top-bg.svg")`,
           width: "100%",
           height: 500,
           position: "absolute",

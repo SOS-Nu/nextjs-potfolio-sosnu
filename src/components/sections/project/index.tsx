@@ -20,7 +20,7 @@ const Project = () => {
             My Recent <span className="brand-red">Works</span>
           </h3>
           <h6 className="text-center mb-md-2  mb-2">
-            Here are a few projects I've worked on recently.
+            Here are a few projects I&apos;ve worked on recently.
           </h6>
         </Col>
       </Row>

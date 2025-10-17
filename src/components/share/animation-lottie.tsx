@@ -3,7 +3,7 @@ import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import { useEffect, useMemo, useRef } from "react";
 
 interface IProps {
-  animationPath: any;
+  animationPath: object;
   width?: string;
 }
 const AnimationLottie = ({ animationPath, width = "95%" }: IProps) => {
@@ -22,8 +22,13 @@ const AnimationLottie = ({ animationPath, width = "95%" }: IProps) => {
   }, [animationPath, width]);
 
   useEffect(() => {
+    // 2. Sửa cảnh báo về ref
+    // Lưu giá trị của ref.current vào một biến tạm
+    const lottieInstance = lottieRef.current;
+
     return () => {
-      if (lottieRef && lottieRef.current) lottieRef?.current.destroy();
+      // Dùng biến tạm trong hàm dọn dẹp
+      lottieInstance?.destroy();
     };
   }, []);
 

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useCurrentApp } from "@/components/context/app.context";
 import { EXPERIENCES } from "@/helpers/data";
 import GlowCard from "@/components/share/glow-card";
-import { fetchDefaultImages } from "@/helpers/image";
+import Image from "next/image";
 
 type TLanguage = "vi" | "en";
 
@@ -41,12 +41,16 @@ const Experience = () => {
             >
               <div className="p-3 relative">
                 {theme === "dark" && (
-                  <img
-                    style={{ position: "absolute", bottom: 0, opacity: 0.8 }}
-                    src={fetchDefaultImages()}
+                  <Image
+                    fill
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      opacity: 0.8,
+                      objectFit: "cover", // 3. Giữ ảnh không bị méo
+                    }}
+                    src={"/assets/blur-23.svg"}
                     alt="Hero"
-                    width={"100%"}
-                    height={200}
                   />
                 )}
                 <div className="experience-container">

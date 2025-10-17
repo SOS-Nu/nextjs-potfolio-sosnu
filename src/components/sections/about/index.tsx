@@ -11,6 +11,7 @@ import GlowCard from "@/components/share/glow-card";
 import Divider from "../divider";
 import SocialMedia from "../social.media";
 import { APP_DATA } from "@/helpers/data";
+import "./about.scss";
 
 const About = () => {
   const { t } = useTranslation();

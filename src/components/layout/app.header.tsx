@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { useCurrentApp } from "../context/app.context";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 type ThemeContextType = "light" | "dark";
 
@@ -61,10 +62,12 @@ function AppHeader() {
 
   const renderFlag = (language: string) => {
     return (
-      <img
-        style={{ height: 20, width: 20 }}
+      <Image
         src={language === "en" ? enFlag : viFlag}
         alt={language}
+        width={20}
+        height={20}
+        style={{ height: 20, width: 20 }}
       />
     );
   };
@@ -127,10 +130,12 @@ function AppHeader() {
                 className="dropdown-item d-flex gap-2 align-items-center"
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  style={{ height: 20, width: 20 }}
+                <Image
                   src={enFlag}
                   alt="english"
+                  width={20}
+                  height={20}
+                  style={{ height: 20, width: 20 }}
                 />
                 <span>English</span>
               </div>
@@ -139,10 +144,12 @@ function AppHeader() {
                 className="dropdown-item d-flex gap-2 align-items-center"
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  style={{ height: 20, width: 20 }}
+                <Image
                   src={viFlag}
                   alt="vietnamese"
+                  width={20}
+                  height={20}
+                  style={{ height: 20, width: 20 }}
                 />
                 <span>Tiếng Việt</span>
               </div>

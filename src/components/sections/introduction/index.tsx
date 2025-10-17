@@ -2,7 +2,7 @@ import { Col, Row } from "react-bootstrap";
 import Tilt from "react-parallax-tilt";
 import "./introduction.scss";
 import { useTranslation } from "react-i18next";
-import { avatarImg } from "@/helpers/image";
+import Image from "next/image";
 
 const Introduction = () => {
   const { t, i18n } = useTranslation();
@@ -61,7 +61,25 @@ const Introduction = () => {
           className="d-md-block p-6 p-md-2" /* DI CHUYỂN PADDING LÊN ĐÂY */
         >
           <Tilt>
-            <img src={avatarImg()} className="img-fluid" alt="avatar" />
+            <div
+              className="img-fluid"
+              style={{
+                position: "relative",
+                width: "100%",
+                height: "auto",
+                paddingBottom: "100%",
+              }}
+            >
+              <Image
+                src={"/assets/levannguyen.png"}
+                alt="avatar"
+                fill
+                style={{
+                  objectFit: "cover", // 3. Giữ ảnh không bị méo
+                }}
+                className="img-fluid"
+              />
+            </div>
           </Tilt>
         </Col>
       </Row>

@@ -1,3 +1,4 @@
+// file: app/layout.tsx
 import { AppContextProvider } from "@/components/context/app.context";
 import "@/styles/global.scss";
 import I18nProvider from "@/components/I18nProvider";
@@ -6,9 +7,10 @@ import AppFooter from "@/components/layout/app.footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  // Metadata của bạn giữ nguyên
   title: {
-    template: "%s | Le Van Nguyen", // Tạo template cho các trang con
-    default: "Le Van Nguyen Portfolio | SOS Nu", // Title mặc định cho trang chủ
+    template: "%s | Le Van Nguyen",
+    default: "Le Van Nguyen Portfolio | SOS Nu",
   },
   description:
     "Portfolio của Lê Văn Nguyên (levannguyen.pro). Lê Văn Nguyên là ai? Sos nu là ai? Khám phá các dự án lập trình và thông tin về tôi tại đây.",
@@ -23,11 +25,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Le Van Nguyen Portfolio | levannguyen.pro",
     description: "Khám phá các dự án và thông tin về Lê Văn Nguyên.",
-    url: "https://levannguyen.pro", // Thay bằng tên miền của bạn
+    url: "https://levannguyen.pro",
     siteName: "Le Van Nguyen Portfolio",
     images: [
       {
-        url: "https://levannguyen.pro/og-image.png", // Thay bằng link ảnh thumbnail của bạn
+        url: "https://levannguyen.pro/og-image.png",
         width: 1200,
         height: 630,
       },
@@ -37,14 +39,30 @@ export const metadata: Metadata = {
   },
 };
 
+// Script để chặn nháy theme
+const ThemeScript = () => {
+  const script = `
+    (function() {
+      try {
+        var theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      } catch (e) {}
+    })();
+  `;
+  return <script dangerouslySetInnerHTML={{ __html: script }} />;
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    // Thêm suppressHydrationWarning
+    <html lang="vi" suppressHydrationWarning={true}>
       <body>
+        {/* Thêm ThemeScript */}
+        <ThemeScript />
         <AppContextProvider>
           <I18nProvider>
             <AppHeader />

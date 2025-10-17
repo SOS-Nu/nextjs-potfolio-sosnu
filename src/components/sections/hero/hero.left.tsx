@@ -29,7 +29,7 @@ const HeroLeft = (props: IProps) => {
         </span>
       </h3>
       <h3 style={{ paddingTop: 10, paddingBottom: 5 }}>
-        I'M &nbsp;
+        I&apos;M &nbsp;
         <strong className="brand-red">{t("appHeader.brand")}</strong>
       </h3>
       <Typewriter

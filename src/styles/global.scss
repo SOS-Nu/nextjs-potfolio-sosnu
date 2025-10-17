@@ -10,10 +10,10 @@ $spacers: (
   7: $spacer * 5,
 );
 // 2. Tải các biến, mixins và hàm TÙY CHỈNH của bạn
-@use "./variable.scss";
-@use "./animation.scss";
+@import "./variable.scss";
+@import "./animation.scss";
 // @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap");
-@use "bootstrap/scss/bootstrap.scss";
+@import "bootstrap/scss/bootstrap.scss";
 
 * {
   margin: 0;
