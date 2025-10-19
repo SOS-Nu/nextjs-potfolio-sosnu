@@ -21,7 +21,7 @@ function AppHeader() {
   const { theme, setTheme } = useCurrentApp();
   const { t, i18n } = useTranslation();
   const [expanded, setExpanded] = useState(false);
-  const navRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   const currentPath = usePathname();
 
   const getNavLinkClass = (path: string) => {
@@ -78,10 +78,10 @@ function AppHeader() {
       data-bs-theme={theme}
       expand="lg"
       className="bg-body-tertiary"
-      style={{ zIndex: 1 }}
+      style={{ zIndex: 10 }}
       expanded={expanded}
       onToggle={setExpanded}
-      // ref={navRef as any}
+      ref={navRef}
     >
       <Container>
         <Link className="navbar-brand" href="/" onClick={closeNav}>
