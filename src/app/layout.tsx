@@ -17,7 +17,9 @@ export const metadata: Metadata = {
   keywords: [
     "levannguyen.pro",
     "le van nguyen",
+    "lê văn nguyên",
     "sos nu",
+    "sosnu",
     "portfolio",
     "developer",
     "lập trình viên",
