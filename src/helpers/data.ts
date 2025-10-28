@@ -77,8 +77,8 @@ export const PROJECTSFeatured = [
     },
     githubLink: "https://github.com/SOS-Nu/springrest-sosnu",
     githubLink1: "https://github.com/SOS-Nu/react-vite-khoaluan",
-    demoLink: "JPxP7SIEECY",
-    youtubeVideoId: "JPxP7SIEECY",
+    demoLink: "",
+    youtubeVideoId: "",
   },
 ];
 
