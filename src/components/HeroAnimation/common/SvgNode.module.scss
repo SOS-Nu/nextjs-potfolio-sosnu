@@ -1,0 +1,29 @@
+.svg-path {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.label {
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  display: none;
+  will-change: opacity;
+
+  @media (min-width: 1180px) {
+    display: block;
+  }
+
+  &.label--visible {
+    opacity: 1;
+  }
+}
+
+.circle-dot {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  --dot-color: white;
+
+  @media (min-width: 768px) {
+    filter: drop-shadow(0 0 3px var(--dot-color));
+  }
+}

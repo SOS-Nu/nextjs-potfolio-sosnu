@@ -19,7 +19,7 @@
 }
 
 .glow-card {
-  --active: 0.15;
+  --active: 0;
   --start: 0;
 }
 
@@ -39,7 +39,7 @@
   --alpha: 0;
   content: "";
   background: conic-gradient(
-    from 180deg at 50% 90%,
+    from 180deg at 50% 70%,
     #f626af 0deg,
     #8228ec 72.0000010728836deg,
     #f626af 144.0000021457672deg,
@@ -52,8 +52,7 @@
   inset: -5px;
   border: 8px solid transparent;
   border-radius: 12px;
-  mask:
-    linear-gradient(#0000, #0000),
+  mask: linear-gradient(#0000, #0000),
     conic-gradient(
       from calc((var(--start) - (var(--spread) * 0.5)) * 1deg),
       #000 0deg,
@@ -76,8 +75,7 @@
   background: #84738c;
   background-attachment: fixed;
   border-radius: 12px;
-  mask:
-    linear-gradient(#0000, #0000),
+  mask: linear-gradient(#0000, #0000),
     conic-gradient(
       from
         calc(
@@ -100,7 +98,7 @@
   pointer-events: none;
   position: absolute;
   background: conic-gradient(
-    from 180deg at 50% 90%,
+    from 180deg at 50% 70%,
     #f626af 0deg,
     #8228ec 72.0000010728836deg,
     #f626af 144.0000021457672deg,
@@ -115,8 +113,7 @@
   --alpha: 0;
   inset: 0;
   border: 2px solid transparent;
-  mask:
-    linear-gradient(#0000, #0000),
+  mask: linear-gradient(#0000, #0000),
     conic-gradient(
       from
         calc(

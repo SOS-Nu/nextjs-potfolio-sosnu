@@ -1,0 +1,37 @@
+.pink-indicator {
+  position: absolute;
+  top: 202px;
+  left: 840px;
+  opacity: 0.2;
+  transition: opacity 1s ease-in-out;
+
+  &.active {
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0.6;
+  }
+}
+
+.pink-glow {
+  background-color: #bd34fe;
+  width: 100px;
+  aspect-ratio: 2;
+  position: absolute;
+  top: 202px;
+  left: 905px;
+  z-index: -1;
+  filter: blur(40px);
+  opacity: 0;
+  transition: all 3s ease-out;
+  will-change: opacity;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+    filter: blur(60px);
+  }
+
+  &.active {
+    transition: all 0.2s ease-in-out;
+    opacity: 0.8;
+  }
+}

@@ -1,32 +1,13 @@
-// file: src/components/context/app.context.tsx
+// src/components/context/app.context.tsx
 "use client";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import { useAppSelector } from "@/redux/store";
+import { createContext, useContext, useEffect, useMemo } from "react";
 
-// Hàm an toàn để lấy theme, chỉ chạy localStorage ở client
-const getInitialTheme = (): ThemeContextType => {
-  if (typeof window !== "undefined") {
-    const savedTheme = localStorage.getItem("theme") as ThemeContextType;
-    if (savedTheme) {
-      return savedTheme;
-    }
-  }
-  return "dark"; // Giá trị mặc định khi ở server
-};
-
+// Định nghĩa rõ ràng các thuộc tính trong context
 interface IAppContext {
-  theme: ThemeContextType;
-  setTheme: (v: ThemeContextType) => void;
+  theme: string;
 }
 
-type ThemeContextType = "light" | "dark";
-
-// DÒNG ĐÃ SỬA LỖI GÕ PHÍM
 const AppContext = createContext<IAppContext | null>(null);
 
 export const AppContextProvider = ({
@@ -34,29 +15,16 @@ export const AppContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  // Khởi tạo state bằng hàm an toàn
-  const [theme, setThemeState] = useState<ThemeContextType>(getInitialTheme);
+  const theme = useAppSelector((state) => state.app.layoutConfig.theme);
 
-  // useEffect để cập nhật DOM và localStorage (chỉ chạy ở client)
   useEffect(() => {
     document.documentElement.setAttribute("data-bs-theme", theme);
-    localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const setTheme = useCallback((newTheme: ThemeContextType) => {
-    setThemeState(newTheme);
-  }, []);
+  // Dùng useMemo để tránh re-render không cần thiết cho các component tiêu thụ context
+  const value = useMemo(() => ({ theme }), [theme]);
 
-  return (
-    <AppContext.Provider
-      value={{
-        theme,
-        setTheme,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
 export const useCurrentApp = () => {

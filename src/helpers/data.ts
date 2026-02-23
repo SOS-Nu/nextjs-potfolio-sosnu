@@ -9,16 +9,16 @@ export const EXPERIENCES = [
   {
     id: 1,
     title: {
-      vi: "Lập Trình viên Fullstack",
-      en: "Fullstack Developer",
+      vi: "Lập Trình viên Fullstack(Fresher)",
+      en: "Fullstack Developer(Fresher)",
     },
     company: {
-      vi: "Phát Triển Website JobHunter để tìm việc dễ dàng hơn",
-      en: "JobHunter Web Development Project",
+      vi: "Phát Triển Hệ Thống CMMS - VietSoft ",
+      en: "CMMS - VietSoft Company Development Project",
     },
     duration: {
-      vi: "tháng 5 2025 - tháng 12 2025",
-      en: "May 2025 - Dec 2025",
+      vi: "Tháng 1/2025 - Tháng 12/2025",
+      en: "Jan 2025 - Dec 2025",
     },
   },
   {

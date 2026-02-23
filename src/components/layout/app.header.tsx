@@ -1,39 +1,63 @@
 "use client";
+
+import { setLanguage, setLayoutConfig } from "@/redux/slices/appSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { NavDropdown } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { MdOutlineLightMode, MdNightlight } from "react-icons/md";
 import { useTranslation } from "react-i18next";
-import { NavDropdown } from "react-bootstrap";
+import { MdNightlight, MdOutlineLightMode } from "react-icons/md";
 
-import { useEffect, useRef, useState } from "react";
-import { useCurrentApp } from "../context/app.context";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Image from "next/image";
-
-type ThemeContextType = "light" | "dark";
-
-const viFlag = "/assets/svg/language/vi.svg";
-const enFlag = "/assets/svg/language/en.svg";
+// Helper constants
+const VI_FLAG = "/assets/svg/language/vi.svg";
+const EN_FLAG = "/assets/svg/language/en.svg";
+const LANG_VI_ID = 1;
+const LANG_EN_ID = 2; // Giả sử quy ước: 1=VN, 2=EN (hoặc 0 tùy bạn định nghĩa)
 
 function AppHeader() {
-  const { theme, setTheme } = useCurrentApp();
   const { t, i18n } = useTranslation();
+  const currentPath = usePathname();
   const [expanded, setExpanded] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-  const currentPath = usePathname();
 
-  const getNavLinkClass = (path: string) => {
-    // So sánh đường dẫn hiện tại với đường dẫn mục tiêu
-    // Nếu trùng, thêm class 'active' (hoặc class CSS bạn dùng để highlight)
-    // Nếu không, chỉ giữ lại class 'nav-link'
-    return `nav-link ${currentPath === path ? "active" : ""}`;
+  // --- REDUX HOOKS ---
+  const dispatch = useAppDispatch();
+  // Lấy colorScheme từ Redux Store (Single Source of Truth)
+  const layoutConfig = useAppSelector((state) => state.app.layoutConfig);
+  const currentLanguageId = useAppSelector((state) => state.app.language);
+
+  // Xác định theme hiện tại (dựa trên colorScheme hoặc config khác)
+  const currentTheme = layoutConfig.theme;
+
+  // --- HANDLERS ---
+  const handleMode = (mode: "light" | "dark") => {
+    // Dispatch action cập nhật Redux (Middleware sẽ tự lưu Cookie)
+    dispatch(
+      setLayoutConfig({
+        ...layoutConfig,
+        theme: mode,
+      })
+    );
   };
 
+  const handleLanguageChange = (langCode: string, langId: number) => {
+    // 1. Đổi ngôn ngữ hiển thị ngay lập tức
+    i18n.changeLanguage(langCode);
+    // 2. Cập nhật Redux (để Middleware lưu Cookie cho lần sau)
+    dispatch(setLanguage(langId));
+  };
+
+  const closeNav = () => setExpanded(false);
+
+  // --- EFFECTS ---
+  // Xử lý click outside để đóng menu mobile
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      // Kiểm tra nếu Navbar đang mở VÀ cú nhấp chuột KHÔNG nằm bên trong Navbar
       if (
         expanded &&
         navRef.current &&
@@ -42,40 +66,36 @@ function AppHeader() {
         setExpanded(false);
       }
     };
-
-    // Gắn event listener khi component mount
     document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [expanded]);
 
-    // Dọn dẹp event listener khi component unmount hoặc khi dependencies thay đổi
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [expanded]); // Dependency array: chỉ chạy lại khi trạng thái expanded thay đổi
+  // Đồng bộ i18n với Redux khi load lần đầu (để chắc chắn đúng ngôn ngữ)
+  useEffect(() => {
+    const targetLang = currentLanguageId === LANG_VI_ID ? "vi" : "en";
+    if (i18n.language !== targetLang) {
+      i18n.changeLanguage(targetLang);
+    }
+  }, [currentLanguageId, i18n]);
 
-  const handleMode = (mode: ThemeContextType) => {
-    setTheme(mode);
+  const getNavLinkClass = (path: string) => {
+    return `nav-link ${currentPath === path ? "active" : ""}`;
   };
 
-  const closeNav = () => {
-    setExpanded(false);
-  };
-
-  const renderFlag = (language: string) => {
-    return (
-      <Image
-        src={language === "en" ? enFlag : viFlag}
-        alt={language}
-        width={20}
-        height={20}
-        style={{ height: 20, width: 20 }}
-      />
-    );
-  };
+  const renderFlag = (lang: string) => (
+    <Image
+      src={lang === "en" ? EN_FLAG : VI_FLAG}
+      alt={lang}
+      width={20}
+      height={20}
+      style={{ height: 20, width: 20 }}
+    />
+  );
 
   return (
     <Navbar
       fixed="top"
-      data-bs-theme={theme}
+      data-bs-theme={currentTheme}
       expand="lg"
       className="bg-body-tertiary"
       style={{ zIndex: 10 }}
@@ -98,7 +118,6 @@ function AppHeader() {
               href="/project"
               onClick={closeNav}
             >
-              {" "}
               {t("appHeader.project")}
             </Link>
             <Link
@@ -109,9 +128,11 @@ function AppHeader() {
               {t("appHeader.about")}
             </Link>
           </Nav>
-          <Nav className="ms-auto">
+
+          <Nav className="ms-auto align-items-lg-center">
+            {/* Theme Toggler */}
             <div className="nav-link" style={{ cursor: "pointer" }}>
-              {theme === "light" ? (
+              {currentTheme === "light" ? (
                 <MdOutlineLightMode
                   onClick={() => handleMode("dark")}
                   style={{ fontSize: 20 }}
@@ -124,33 +145,22 @@ function AppHeader() {
               )}
             </div>
 
-            <NavDropdown title={renderFlag(i18n.resolvedLanguage!)}>
+            {/* Language Dropdown */}
+            <NavDropdown title={renderFlag(i18n.resolvedLanguage || "vi")}>
               <div
-                onClick={() => i18n.changeLanguage("en")}
+                onClick={() => handleLanguageChange("en", LANG_EN_ID)}
                 className="dropdown-item d-flex gap-2 align-items-center"
                 style={{ cursor: "pointer" }}
               >
-                <Image
-                  src={enFlag}
-                  alt="english"
-                  width={20}
-                  height={20}
-                  style={{ height: 20, width: 20 }}
-                />
+                <Image src={EN_FLAG} alt="english" width={20} height={20} />
                 <span>English</span>
               </div>
               <div
-                onClick={() => i18n.changeLanguage("vi")}
+                onClick={() => handleLanguageChange("vi", LANG_VI_ID)}
                 className="dropdown-item d-flex gap-2 align-items-center"
                 style={{ cursor: "pointer" }}
               >
-                <Image
-                  src={viFlag}
-                  alt="vietnamese"
-                  width={20}
-                  height={20}
-                  style={{ height: 20, width: 20 }}
-                />
+                <Image src={VI_FLAG} alt="vietnamese" width={20} height={20} />
                 <span>Tiếng Việt</span>
               </div>
             </NavDropdown>

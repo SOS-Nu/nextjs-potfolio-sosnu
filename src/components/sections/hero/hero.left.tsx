@@ -1,11 +1,11 @@
-import Typewriter from "typewriter-effect";
-import { useTranslation } from "react-i18next";
-import "./hero.scss";
-import { MdFileDownload } from "react-icons/md";
-import { AiFillFire } from "react-icons/ai";
-import SocialMedia from "../social.media";
 import { APP_DATA } from "@/helpers/data";
+import { useTranslation } from "react-i18next";
+import { AiFillFire } from "react-icons/ai";
+import { MdFileDownload } from "react-icons/md";
+import Typewriter from "typewriter-effect";
 import ResizeButton from "../resize.button";
+import SocialMedia from "../social.media";
+import "./hero.scss";
 
 interface IProps {
   scrollToExperienceSection: () => void;

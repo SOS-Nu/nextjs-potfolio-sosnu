@@ -1,15 +1,14 @@
 "use client";
+import GlowCard from "@/components/share/glow-card";
+import { PROJECTS, PROJECTSFeatured } from "@/helpers/data";
 import { Col, Container, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import ProjectCard from "./project.card";
 import ProjectCardFeatured from "./project.card.featured";
-import GlowCard from "@/components/share/glow-card";
-import { useTranslation } from "react-i18next";
-import { useCurrentApp } from "@/components/context/app.context";
-import { PROJECTS, PROJECTSFeatured } from "@/helpers/data";
 type TLanguage = "vi" | "en";
 
 const Project = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const currentLanguage = i18n.resolvedLanguage as TLanguage;
 
   return (
@@ -52,11 +51,7 @@ const Project = () => {
                 {PROJECTSFeatured?.map((item) => {
                   return (
                     <Col md={8} className="project-card" key={item.id}>
-                      <GlowCard
-                        identifier="project-1"
-                        autoRotate={true}
-                        proximity={0}
-                      >
+                      <GlowCard identifier="project-1">
                         <ProjectCardFeatured
                           imgPath={item.imgPath}
                           title={item.title}

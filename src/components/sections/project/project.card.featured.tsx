@@ -1,10 +1,10 @@
 "use client";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import { CgWebsite } from "react-icons/cg";
-import { BsGithub } from "react-icons/bs";
 import { useState } from "react";
-import { Col, Modal, Row } from "react-bootstrap";
+import { Col, Modal } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import { BsGithub } from "react-icons/bs";
+import { CgWebsite } from "react-icons/cg";
 
 interface IProps {
   imgPath: string;

@@ -1,19 +1,19 @@
 "use client";
-import { Col, Row } from "react-bootstrap";
-import AnimationLottie from "@/components/share/animation-lottie";
 import experienceJSON from "@/assets/lottie/code.json";
+import AnimationLottie from "@/components/share/animation-lottie";
+import { Col, Row } from "react-bootstrap";
 
-import { BsPersonWorkspace } from "react-icons/bs";
-import { useTranslation } from "react-i18next";
-import { useCurrentApp } from "@/components/context/app.context";
-import { EXPERIENCES } from "@/helpers/data";
 import GlowCard from "@/components/share/glow-card";
+import { EXPERIENCES } from "@/helpers/data";
+import { useAppSelector } from "@/redux/store";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
+import { BsPersonWorkspace } from "react-icons/bs";
 
 type TLanguage = "vi" | "en";
 
 const Experience = () => {
-  const { theme } = useCurrentApp();
+  const theme = useAppSelector((state) => state.app.layoutConfig.theme);
   const { t, i18n } = useTranslation();
 
   const currentLanguage = i18n.resolvedLanguage as TLanguage;

@@ -40,17 +40,22 @@ const HeroRight = () => {
             <span>{`['`}</span>
             <span>Java Spring</span>
             <span>{"', '"}</span>
+            <span>.NET</span>
+            <span>{"', '"}</span>
             <span>NextJS</span>
             <span>{"', '"}</span>
             <span>React</span>
             <span>{"', '"}</span>
             <span>Redux</span>
+            <span>{"', '"}</span>
+            <span>React Query</span>
             <span>{"'"}</span>
             {/* <span>NestJS</span> */}
             <span>{", '"}</span>
-            <span>NoSQL</span>
-            <span>{"', '"}</span>
             <span>SQL</span>
+            <span>{"', '"}</span>
+            <span>NoSQL</span>
+
             <span>{"', '"}</span>
             <span>Docker</span>
             <span>{"'"}</span>

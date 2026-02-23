@@ -1,10 +1,15 @@
 // file: app/layout.tsx
 import { AppContextProvider } from "@/components/context/app.context";
-import "@/styles/global.scss";
-import I18nProvider from "@/components/I18nProvider";
-import AppHeader from "@/components/layout/app.header";
 import AppFooter from "@/components/layout/app.footer";
+import AppHeader from "@/components/layout/app.header";
+import StoreInitializer from "@/components/layout/StoreInitializer";
+import localStorageKey from "@/constants/localStorageKey";
+import LanguageProvider from "@/Providers/LanguageProvider";
+import { ReduxProvider } from "@/redux/ReduxProvider";
+import "@/styles/global.scss";
+import { LayoutConfig } from "@/types/LayoutState";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   // Metadata của bạn giữ nguyên
@@ -42,36 +47,52 @@ export const metadata: Metadata = {
 };
 
 // Script để chặn nháy theme
-const ThemeScript = () => {
-  const script = `
-    (function() {
-      try {
-        var theme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-bs-theme', theme);
-      } catch (e) {}
-    })();
-  `;
-  return <script dangerouslySetInnerHTML={{ __html: script }} />;
-};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // --- SERVER SIDE LOGIC ---
+
+  const cookieStore = await cookies();
+
+  // Logic lấy dữ liệu giữ nguyên, chỉ thay đổi cách gọi hàm bên trên
+  const langCookie = cookieStore.get(localStorageKey.LANGUAGE);
+  const initialLang = langCookie ? Number(langCookie.value) : 1;
+
+  const configCookie = cookieStore.get(localStorageKey.LAYOUT_CONFIG);
+  let initialConfig: LayoutConfig | null = null;
+  if (configCookie) {
+    try {
+      initialConfig = JSON.parse(configCookie.value);
+    } catch (e) {
+      console.error("Parse config error:", e);
+    }
+  }
+  const serverTheme = initialConfig?.theme || "dark";
   return (
-    // Thêm suppressHydrationWarning
-    <html lang="vi" suppressHydrationWarning={true}>
+    // THAY ĐỔI 1: Gán language động và theme ngay từ Server
+    <html
+      lang={initialLang === 1 ? "vi" : "en"}
+      data-bs-theme={serverTheme}
+      suppressHydrationWarning={true}
+    >
       <body>
-        {/* Thêm ThemeScript */}
-        <ThemeScript />
-        <AppContextProvider>
-          <I18nProvider>
-            <AppHeader />
-            {children}
-            <AppFooter />
-          </I18nProvider>
-        </AppContextProvider>
+        <ReduxProvider>
+          <StoreInitializer
+            language={initialLang}
+            layoutConfig={initialConfig}
+          />
+
+          <AppContextProvider>
+            <LanguageProvider initialLanguage={initialLang}>
+              <AppHeader />
+              {children}
+              <AppFooter />
+            </LanguageProvider>
+          </AppContextProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

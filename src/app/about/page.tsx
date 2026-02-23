@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap";
 import About from "@/components/sections/about";
 import { Metadata } from "next";
 
