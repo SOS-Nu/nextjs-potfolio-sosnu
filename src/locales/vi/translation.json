@@ -6,6 +6,23 @@
     "contact": "Liên hệ",
     "about": "Về tác giả"
   },
+  "hero": {
+    "cv": "SOLID & Design Patterns",
+    "jobDesc": "Clean Architecture",
+    "salary": "Unit Test",
+    "experience": "Optimize Database & Query",
+    "skills": "Asynchronous",
+    "benefits": "Optimized Front-end",
+    "degree": "Degrees",
+    "referral": "Referral Letter",
+    "review": "Company Review",
+    "remote": "Remote Work",
+    "flexible": "Flexible Hours",
+    "startup": "Start-up Spirit",
+    "outputOffer": "High Throughput",
+    "outputSalary": "Save resources",
+    "outputCulture": "Hight Scalability"
+  },
   "heroSection": {
     "exp": "Kinh nghiệm",
     "cv": "Tải Resume"

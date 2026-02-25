@@ -10,8 +10,8 @@ interface InputLine {
   visible?: boolean;
   label?: string;
   labelVisible?: boolean;
-  dotColor?: string;
-  glowColor?: string;
+  dotColor: string;
+  glowColor: string;
 }
 
 interface SvgInputsProps {

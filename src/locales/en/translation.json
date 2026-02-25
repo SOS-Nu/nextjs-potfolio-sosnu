@@ -1,20 +1,20 @@
 {
   "hero": {
-    "cv": "Resume / CV",
-    "jobDesc": "Job Description",
-    "salary": "Salary Range",
-    "experience": "Experience",
-    "skills": "Top Skills",
-    "benefits": "Benefits",
+    "cv": "SOLID & Design Patterns",
+    "jobDesc": "Clean Architecture",
+    "salary": "Unit Test",
+    "experience": "Optimize Database & Query",
+    "skills": "Asynchronous",
+    "benefits": "Optimized Front-end",
     "degree": "Degrees",
     "referral": "Referral Letter",
     "review": "Company Review",
     "remote": "Remote Work",
     "flexible": "Flexible Hours",
     "startup": "Start-up Spirit",
-    "outputOffer": "Received Offer",
-    "outputSalary": "Attractive Pay",
-    "outputCulture": "Culture Fit"
+    "outputOffer": "High Throughput",
+    "outputSalary": "save resources",
+    "outputCulture": "Hight Scalability"
   },
   "appHeader": {
     "brand": "Le Van Nguyen (SOS Nu)",

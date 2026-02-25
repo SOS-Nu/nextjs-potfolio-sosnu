@@ -1,8 +1,8 @@
+import Image from "next/image";
 import { Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import Tilt from "react-parallax-tilt";
 import "./introduction.scss";
-import { useTranslation } from "react-i18next";
-import Image from "next/image";
 
 const Introduction = () => {
   const { t, i18n } = useTranslation();
@@ -34,7 +34,8 @@ const Introduction = () => {
             <i>
               <b className="text-pink-100">
                 {" "}
-                Java {t("introSection.and")} Javascript.{" "}
+                Java {t("introSection.and")} Javascript {t("introSection.and")}{" "}
+                C# .{" "}
               </b>
             </i>
             <br />
@@ -47,11 +48,15 @@ const Introduction = () => {
             <br />
             {t("introSection.heading5")}
             <i>
-              <b className="text-pink-100">&nbsp;Java Spring</b>{" "}
+              <b className="text-pink-100">&nbsp; Next JS</b>{" "}
             </i>
             {t("introSection.and")}
             <i>
-              <b className="text-pink-100"> Next JS</b>
+              <b className="text-pink-100"> Java Spring </b>
+            </i>{" "}
+            {t("introSection.and")}
+            <i>
+              <b className="text-pink-100"> .NET </b>
             </i>
           </p>
         </Col>

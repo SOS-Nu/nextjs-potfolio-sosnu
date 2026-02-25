@@ -17,7 +17,7 @@ import { MdNightlight, MdOutlineLightMode } from "react-icons/md";
 const VI_FLAG = "/assets/svg/language/vi.svg";
 const EN_FLAG = "/assets/svg/language/en.svg";
 const LANG_VI_ID = 1;
-const LANG_EN_ID = 2; // Giả sử quy ước: 1=VN, 2=EN (hoặc 0 tùy bạn định nghĩa)
+const LANG_EN_ID = 2;
 
 function AppHeader() {
   const { t, i18n } = useTranslation();
@@ -27,7 +27,6 @@ function AppHeader() {
 
   // --- REDUX HOOKS ---
   const dispatch = useAppDispatch();
-  // Lấy colorScheme từ Redux Store (Single Source of Truth)
   const layoutConfig = useAppSelector((state) => state.app.layoutConfig);
   const currentLanguageId = useAppSelector((state) => state.app.language);
 
@@ -41,7 +40,7 @@ function AppHeader() {
       setLayoutConfig({
         ...layoutConfig,
         theme: mode,
-      })
+      }),
     );
   };
 

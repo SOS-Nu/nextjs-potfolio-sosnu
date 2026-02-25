@@ -17,8 +17,8 @@ export const EXPERIENCES = [
       en: "CMMS - VietSoft Company Development Project",
     },
     duration: {
-      vi: "Tháng 1/2025 - Tháng 12/2025",
-      en: "Jan 2025 - Dec 2025",
+      vi: "Tháng 6/2025 - Tháng 12/2025",
+      en: "June 2025 - Dec 2025",
     },
   },
   {

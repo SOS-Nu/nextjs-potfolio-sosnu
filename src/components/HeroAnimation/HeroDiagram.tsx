@@ -26,7 +26,8 @@ export interface LineData {
   label: string;
   currentKey?: string;
   currentDefault?: string;
-  dotColor?: string;
+  dotColor: string;
+  glowColor: string;
 }
 
 interface ActiveStates {
@@ -48,9 +49,9 @@ const INPUT_PATHS = [
 
 const INPUT_FILE_SETS = [
   [
-    { key: "hero.cv", default: "Hồ sơ CV", color: "#61DBFB" },
-    { key: "hero.jobDesc", default: "Mô tả Job" },
-    { key: "hero.salary", default: "Lọc theo Lương", color: "#FF66AA" },
+    { key: "hero.cv", default: "SOLID & Design Patterns", color: "#61DBFB" },
+    { key: "hero.jobDesc", default: "Clean Architecture" },
+    { key: "hero.salary", default: "Unit Test", color: "#FF66AA" },
   ],
   [
     { key: "hero.experience", default: "Kinh nghiệm", color: "#FFA500" },
@@ -58,9 +59,9 @@ const INPUT_FILE_SETS = [
     { key: "hero.benefits", default: "Phúc lợi", color: "#E0E0E0" },
   ],
   [
-    { key: "hero.degree", default: "Bằng cấp" },
-    { key: "hero.referral", default: "Thư giới thiệu", color: "#FFD700" },
-    { key: "hero.review", default: "Review Công ty", color: "#00CED1" },
+    { key: "hero.cv", default: "Bằng cấp" },
+    { key: "hero.jobDesc", default: "Thư giới thiệu", color: "#FFD700" },
+    { key: "hero.salary", default: "Review Công ty", color: "#00CED1" },
   ],
 ];
 
@@ -191,7 +192,9 @@ const HeroDiagram: React.FC = () => {
       line.currentKey = item.key;
       line.currentDefault = item.default;
       line.label = t(item.key, item.default);
-      line.dotColor = item.color || "#9fe6fd";
+      const activeColor = item.color || "#9fe6fd";
+      line.dotColor = activeColor;
+      line.glowColor = activeColor; // Thêm dòng này
 
       tl.add(
         animateSingleInput(line, isMobile),

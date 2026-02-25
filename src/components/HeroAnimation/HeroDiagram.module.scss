@@ -157,7 +157,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    // Dùng transform để căn giữa và tạo hiệu ứng scale ban đầu
     transform: translate(-50%, -50%) scale(0.9);
 
     // THAY ĐỔI Ở ĐÂY:
@@ -172,17 +171,7 @@
 
     @media (max-width: 768px) {
       // Nếu trên mobile muốn logo to hơn 1 chút so với chip
-      width: 60%;
-    }
-  }
-
-  // Khi active
-  &.active {
-    .vite-chip__logo {
-      opacity: 1;
-      filter: grayscale(0);
-      // Giữ nguyên căn giữa và scale về 1
-      transform: translate(-50%, -50%) scale(1);
+      width: 50%;
     }
   }
 
@@ -224,8 +213,19 @@
     .vite-chip__logo {
       opacity: 1;
       filter: grayscale(0);
-      transform: translate(-50%, -50%) scale(1);
+      // transform: translate(-50%, -50%) scale(1);
+      animation: spin 3s linear infinite;
     }
+  }
+}
+
+@keyframes spin {
+  from {
+    /* Bắt buộc phải giữ translate(-50%, -50%) để không bị lệch chỗ khác */
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg) scale(1);
   }
 }
 
