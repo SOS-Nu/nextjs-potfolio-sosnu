@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { BsGithub } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
+import Image from "next/image";
 
 interface IProps {
   imgPath: string;
@@ -22,16 +23,21 @@ function ProjectCardFeatured(props: IProps) {
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
   const embedUrl = `https://www.youtube.com/embed/${props.youtubeVideoId}`;
+  const imageSrc = props.imgPath.startsWith("/") ? props.imgPath : `/${props.imgPath}`;
 
   return (
     <>
       <Card className="project-card-view-featured">
-        <Card.Img
-          variant="top"
-          src={props.imgPath}
-          alt="card-img"
-          style={{ maxHeight: 350 }}
-        />
+        <div style={{ position: "relative", width: "100%", height: "300px", overflow: "hidden" }}>
+          <Image
+            src={imageSrc}
+            alt={props.title[props.currentLanguage]}
+            fill
+            sizes="(max-width: 768px) 100vw, 800px"
+            style={{ objectFit: "cover", borderTopLeftRadius: "0.75rem", borderTopRightRadius: "0.75rem" }}
+            priority
+          />
+        </div>
         <Card.Body className="d-flex flex-column" style={{ paddingTop: "5px" }}>
           <Card.Title>{props.title[props.currentLanguage]}</Card.Title>
           <div className="d-flex flex-column justify-content-between h-100">

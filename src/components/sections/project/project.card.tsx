@@ -2,6 +2,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { CgWebsite } from "react-icons/cg";
 import { BsGithub } from "react-icons/bs";
+import Image from "next/image";
 
 interface IProps {
   imgPath: string;
@@ -13,16 +14,21 @@ interface IProps {
 }
 
 function ProjectCard(props: IProps) {
+  const imageSrc = props.imgPath.startsWith("/") ? props.imgPath : `/${props.imgPath}`;
+
   return (
     <>
       {" "}
       <Card className="project-card-view">
-        <Card.Img
-          variant="top"
-          src={props.imgPath}
-          alt="card-img"
-          style={{ maxHeight: 215 }}
-        />
+        <div style={{ position: "relative", width: "100%", height: "200px", overflow: "hidden" }}>
+          <Image
+            src={imageSrc}
+            alt={props.title[props.currentLanguage]}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{ objectFit: "cover", borderTopLeftRadius: "0.75rem", borderTopRightRadius: "0.75rem" }}
+          />
+        </div>
         <Card.Body className="d-flex flex-column">
           <Card.Title>{props.title[props.currentLanguage]}</Card.Title>
           <div className="d-flex flex-column justify-content-between h-100">

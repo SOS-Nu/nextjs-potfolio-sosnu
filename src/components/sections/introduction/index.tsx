@@ -76,7 +76,7 @@ const Introduction = () => {
               }}
             >
               <Image
-                src={"/assets/levannguyen.png"}
+                src={"/assets/levannguyen.webp"}
                 alt="avatar"
                 fill
                 style={{

@@ -57,7 +57,7 @@ export const EXPERIENCES = [
 export const PROJECTSFeatured = [
   {
     id: 1,
-    imgPath: "assets/project/jobhunter.png",
+    imgPath: "assets/project/jobhunter.webp",
     title: {
       vi: "JobHunter | Ứng dụng Full-Stack (Nổi bật & Mới nhất)",
       en: "JobHunter | Full-Stack Application (Featured & Latest)",
@@ -86,7 +86,7 @@ export const PROJECTSFeatured = [
 export const PROJECTS = [
   {
     id: 1,
-    imgPath: "assets/project/soundcloud.png",
+    imgPath: "assets/project/soundcloud.webp",
     title: {
       vi: "SoundCloud Clone | Next.js 14",
       en: "SoundCloud Clone | Next.js 14",
@@ -100,13 +100,13 @@ export const PROJECTS = [
   },
   {
     id: 2,
-    imgPath: "assets/project/bookstore.png",
+    imgPath: "assets/project/bookstore.webp",
     title: {
       vi: "Hiệu sách E-commerce | React.js",
       en: "E-commerce Bookstore | React.js",
     },
     description: {
-      vi: `Website thương mại điện tử chuyên bán sách, được xây dựng hoàn toàn bằng React. Giao diện người dùng được thiết kế chuyên nghiệp và thân thiện với thư viện Ant Design. Tích hợp các chức năng quan trọng như thanh toán online an toàn qua cổng VNPay và đăng nhập tiện lợi bằng tài khoản Google.`,
+      vi: `Website thương mại điện tử chuyên bán sách, được xây dựng hoàn toàn bằng React. Giao diện người dùng được thiết kế chuyên nghiệp và thân thiện với thư viện Ant Design. Tích hợp các chức năng quan trọng như thanh toán online an sau qua cổng VNPay và đăng nhập tiện lợi bằng tài khoản Google.`,
       en: `An e-commerce website specializing in selling books, built entirely with React. The user interface is professionally and friendly designed using the Ant Design library. It integrates key features such as secure online payments via the VNPay gateway and convenient login with Google accounts.`,
     },
     githubLink: "https://github.com/your-username/react-bookstore",
@@ -114,7 +114,7 @@ export const PROJECTS = [
   },
   {
     id: 3,
-    imgPath: "assets/project/laptopshop.png",
+    imgPath: "assets/project/laptopshop.webp",
     title: {
       vi: "Ứng dụng Web | Java Spring MVC & JSP",
       en: "Web Application | Java Spring MVC & JSP",
