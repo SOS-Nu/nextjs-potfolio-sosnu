@@ -13,6 +13,10 @@ import SocialMedia from "../social.media";
 import { APP_DATA } from "@/helpers/data";
 import "./about.scss";
 
+// Parse Lottie JSON once outside render lifecycle to avoid blocking the main thread during navigation/re-renders.
+const parsedDevelopmentLottie = JSON.parse(DEVELOPMENT_LOTTIE);
+const parsedContactLottie = JSON.parse(CONTACT_LOTTIE);
+
 const About = () => {
   const { t } = useTranslation();
   return (
@@ -71,7 +75,7 @@ const About = () => {
                   width="50%"
                   //animation with rp => convert sang text
                   // https://github.com/airbnb/lottie-web/issues/2070
-                  animationPath={JSON.parse(DEVELOPMENT_LOTTIE)}
+                  animationPath={parsedDevelopmentLottie}
                 />
               </Col>
               <Col md={6} xs={12} className="mt-md-5 mt-3">
@@ -126,7 +130,7 @@ const About = () => {
                   width="50%"
                   //animation with rp => convert sang text
                   // https://github.com/airbnb/lottie-web/issues/2070
-                  animationPath={JSON.parse(CONTACT_LOTTIE)}
+                  animationPath={parsedContactLottie}
                 />
                 <h4 className="text-center">{t("aboutPage.contactMe")}</h4>
               </Col>

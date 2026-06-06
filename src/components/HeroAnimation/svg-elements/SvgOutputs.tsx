@@ -1,21 +1,19 @@
 "use client";
 
 import React from "react";
-import SvgNode from "../common/SvgNode";
+import SvgNode, { SvgNodeRef } from "../common/SvgNode";
 import styles from "./SvgOutputs.module.scss"; // Hoặc .css tùy file bạn đặt
 
 interface OutputLine {
-  position?: number;
-  visible?: boolean;
   label?: string;
-  labelVisible?: boolean;
 }
 
 interface SvgOutputsProps {
   outputLines: OutputLine[];
+  nodeRefs: React.MutableRefObject<(SvgNodeRef | null)[]>;
 }
 
-const SvgOutputs: React.FC<SvgOutputsProps> = ({ outputLines }) => {
+const SvgOutputs: React.FC<SvgOutputsProps> = ({ outputLines, nodeRefs }) => {
   // Path cố định từ bản Vue gốc
   const constantPath = "M843.463 1.3315L245.316 5.47507L0.633077 4.69725";
 
@@ -37,10 +35,10 @@ const SvgOutputs: React.FC<SvgOutputsProps> = ({ outputLines }) => {
       {outputLines.map((line, index) => (
         <g key={index}>
           <SvgNode
+            ref={(el) => {
+              nodeRefs.current[index] = el;
+            }}
             path={constantPath}
-            position={line.position ?? 0}
-            visible={line.visible}
-            labelVisible={line.labelVisible}
             label={line.label}
             dotColor="#d499ff"
             glowColor="#BD34FE"

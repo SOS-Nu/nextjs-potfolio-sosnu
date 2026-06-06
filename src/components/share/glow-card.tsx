@@ -1,7 +1,7 @@
 // GlowCard.tsx
 
 import { useAppSelector } from "@/redux/store";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./glow-card.scss";
 
 interface IProps {
@@ -12,15 +12,14 @@ interface IProps {
 
 const GlowCard = ({ children, identifier, proximity }: IProps) => {
   const isTablet = useAppSelector((state) => state.app.isTablet);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (isTablet) return; // Không áp dụng hiệu ứng trên tablet
-    const CONTAINER = document.querySelector(
-      `.glow-container-${identifier}`,
-    )! as HTMLElement;
-    const CARDS = document.querySelectorAll(
-      `.glow-card-${identifier}`,
-    )! as NodeListOf<HTMLElement>;
+    const container = containerRef.current;
+    const card = cardRef.current;
+    if (!container || !card) return;
 
     const CONFIG = {
       proximity: proximity ?? 40,
@@ -33,10 +32,10 @@ const GlowCard = ({ children, identifier, proximity }: IProps) => {
     };
 
     const RESTYLE = () => {
-      CONTAINER.style.setProperty("--gap", "" + CONFIG.gap);
-      CONTAINER.style.setProperty("--blur", "" + CONFIG.blur);
-      CONTAINER.style.setProperty("--spread", "" + CONFIG.spread);
-      CONTAINER.style.setProperty(
+      container.style.setProperty("--gap", "" + CONFIG.gap);
+      container.style.setProperty("--blur", "" + CONFIG.blur);
+      container.style.setProperty("--spread", "" + CONFIG.spread);
+      container.style.setProperty(
         "--direction",
         CONFIG.vertical ? "column" : "row",
       );
@@ -44,53 +43,39 @@ const GlowCard = ({ children, identifier, proximity }: IProps) => {
 
     RESTYLE();
 
-    let cleanupFunction = () => {};
+    // Attach listeners directly to the container to avoid global window/body listeners, preventing layout thrashing and stale bounds.
+    const handlePointerMove = (event: PointerEvent) => {
+      const rect = card.getBoundingClientRect();
+      const x = event.clientX;
+      const y = event.clientY;
 
-    // --- Logic Di chuột (Pointer Move Logic) ---
-    const UPDATE = (event: PointerEvent) => {
-      for (const CARD of CARDS) {
-        const CARD_BOUNDS = CARD.getBoundingClientRect();
+      // Tính toán góc dựa trên vị trí chuột
+      const centerX = rect.left + rect.width * 0.5;
+      const centerY = rect.top + rect.height * 0.5;
 
-        // Kiểm tra xem con trỏ có ở gần thẻ không (proximity check)
-        if (
-          event?.x > CARD_BOUNDS.left - CONFIG.proximity &&
-          event?.x < CARD_BOUNDS.left + CARD_BOUNDS.width + CONFIG.proximity &&
-          event?.y > CARD_BOUNDS.top - CONFIG.proximity &&
-          event?.y < CARD_BOUNDS.top + CARD_BOUNDS.height + CONFIG.proximity
-        ) {
-          CARD.style.setProperty("--active", "1");
-        } else {
-          CARD.style.setProperty("--active", "" + CONFIG.opacity);
-        }
+      let ANGLE = (Math.atan2(y - centerY, x - centerX) * 180) / Math.PI;
+      ANGLE = ANGLE < 0 ? ANGLE + 360 : ANGLE;
 
-        // Tính toán góc dựa trên vị trí chuột
-        const CARD_CENTER = [
-          CARD_BOUNDS.left + CARD_BOUNDS.width * 0.5,
-          CARD_BOUNDS.top + CARD_BOUNDS.height * 0.5,
-        ];
-
-        let ANGLE =
-          (Math.atan2(event?.y - CARD_CENTER[1], event?.x - CARD_CENTER[0]) *
-            180) /
-          Math.PI;
-
-        ANGLE = ANGLE < 0 ? ANGLE + 360 : ANGLE;
-
-        CARD.style.setProperty("--start", "" + (ANGLE + 90));
-      }
+      card.style.setProperty("--start", "" + (ANGLE + 90));
+      card.style.setProperty("--active", "1");
     };
 
-    // Bắt đầu lắng nghe sự kiện chuột và thiết lập cleanup
-    document.body.addEventListener("pointermove", UPDATE);
-    cleanupFunction = () =>
-      document.body.removeEventListener("pointermove", UPDATE);
+    const handlePointerLeave = () => {
+      card.style.setProperty("--active", "" + CONFIG.opacity);
+    };
 
-    // Cleanup function
-    return cleanupFunction;
-  }, [identifier, proximity, isTablet]);
+    container.addEventListener("pointermove", handlePointerMove, { passive: true });
+    container.addEventListener("pointerleave", handlePointerLeave, { passive: true });
+
+    return () => {
+      container.removeEventListener("pointermove", handlePointerMove);
+      container.removeEventListener("pointerleave", handlePointerLeave);
+    };
+  }, [proximity, isTablet]);
+
   return (
-    <div className={`glow-container-${identifier} glow-container`}>
-      <article className={`glow-card glow-card-${identifier}`}>
+    <div ref={containerRef} className={`glow-container-${identifier} glow-container`}>
+      <article ref={cardRef} className={`glow-card glow-card-${identifier}`}>
         <div className="glows"></div>
         {children}
       </article>

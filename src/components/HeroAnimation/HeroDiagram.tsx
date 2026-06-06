@@ -2,7 +2,8 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./HeroDiagram.module.scss";
 
@@ -11,6 +12,7 @@ import SvgBlueIndicator from "./svg-elements/SvgBlueIndicator";
 import SvgInputs from "./svg-elements/SvgInputs";
 import SvgOutputs from "./svg-elements/SvgOutputs";
 import SvgPinkIndicator from "./svg-elements/SvgPinkIndicator";
+import { SvgNodeRef } from "./common/SvgNode";
 
 // Register Plugin
 if (typeof window !== "undefined") {
@@ -18,18 +20,6 @@ if (typeof window !== "undefined") {
 }
 
 // --- Types ---
-export interface LineData {
-  path: string;
-  position: number;
-  visible: boolean;
-  labelVisible: boolean;
-  label: string;
-  currentKey?: string;
-  currentDefault?: string;
-  dotColor: string;
-  glowColor: string;
-}
-
 interface ActiveStates {
   blue: boolean;
   pink: boolean;
@@ -67,173 +57,270 @@ const INPUT_FILE_SETS = [
 
 const HeroDiagram: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Tick dùng để trigger re-render khi Ref data thay đổi (GSAP update)
-  const [, setTick] = useState(0);
-  const sync = useCallback(() => setTick((v) => v + 1), []);
+  const inputNodeRefs = useRef<(SvgNodeRef | null)[]>([]);
+  const outputNodeRefs = useRef<(SvgNodeRef | null)[]>([]);
 
-  const animData = useRef({
-    inputLines: INPUT_PATHS.map((path) => ({
-      position: 0,
-      visible: false,
-      labelVisible: false,
-      label: "",
-      currentKey: "",
-      currentDefault: "",
-      dotColor: "#9fe6fd",
+  const isMounted = useRef(true);
+
+  // States
+  const [cycle, setCycle] = useState(0);
+  const [cycleData, setCycleData] = useState<{
+    selectedIndexes: number[];
+    set: typeof INPUT_FILE_SETS[number];
+  } | null>(null);
+
+  const [inputConfig, setInputConfig] = useState(() =>
+    INPUT_PATHS.map((path) => ({
       path,
-    })) as LineData[],
-    outputLines: Array(3)
-      .fill(null)
-      .map(() => ({
-        position: 0,
-        visible: false,
-        labelVisible: false,
-        label: "",
-        path: "",
-      })) as LineData[],
-    activeStates: { blue: false, pink: false, logo: false } as ActiveStates,
-  }).current;
-
-  // Sync labels - Xử lý đa ngôn ngữ chuẩn xác
-  useEffect(() => {
-    animData.inputLines.forEach((line) => {
-      // Kiểm tra chắc chắn có currentKey mới thực hiện dịch
-      if (line.currentKey) {
-        line.label = t(line.currentKey, line.currentDefault || "");
-      }
-    });
-
-    // Đối với outputLines, nếu bạn fix cứng key thì có thể dùng "" làm fallback
-    animData.outputLines[0].label = t("hero.outputOffer", "Nhận được Offer");
-    animData.outputLines[1].label = t("hero.outputSalary", "Lương hấp dẫn");
-    animData.outputLines[2].label = t("hero.outputCulture", "Phù hợp văn hóa");
-
-    sync();
-  }, [t, i18n.language, sync, animData]);
-
-  // Animation Logics
-  const animateSingleInput = useCallback(
-    (line: LineData, isMobile: boolean) => {
-      const tl = gsap.timeline();
-      tl.set(line, { position: 0, visible: true, labelVisible: false });
-      if (isMobile) {
-        tl.to(line, { position: 1, duration: 1.8, ease: "power2.out" }).set(
-          line,
-          { visible: false },
-          0.5,
-        );
-      } else {
-        tl.to(line, {
-          position: Math.random() * 0.1 + 0.4,
-          duration: 1,
-          ease: "expo.out",
-        })
-          .set(line, { labelVisible: true }, 0.2)
-          .to(line, { position: 1, duration: 1.2, ease: "power3.in" }, 1.2)
-          .set(line, { labelVisible: false }, 1.6)
-          .set(line, { visible: false }, 1.9);
-      }
-      return tl;
-    },
-    [],
+      label: "",
+      dotColor: "#9fe6fd",
+      glowColor: "#9fe6fd",
+    }))
   );
 
-  const animateSingleOutput = useCallback(
-    (line: LineData, index: number, isMobile: boolean) => {
-      const tl = gsap.timeline();
-      tl.set(line, { position: 0, visible: false, labelVisible: false });
-      if (isMobile) {
-        tl.to(line, { position: 0.7, duration: 2, ease: "power1.inOut" }, 0.3)
-          .set(line, { visible: true }, 0.75)
-          .set(line, { visible: false }, 1.2);
-      } else {
-        tl.to(
-          line,
-          {
-            position: (0.6 / 3) * (index + 1) + 0.05,
-            duration: 1.5,
-            ease: "expo.out",
-          },
-          0,
-        )
-          .set(line, { visible: true }, 0)
-          .set(line, { labelVisible: true }, 0.4)
-          .to(line, { position: 1, duration: 1.5, ease: "power3.in" }, 2)
-          .set(line, { labelVisible: false }, 2.5)
-          .set(line, { visible: false }, 3);
-      }
-      return tl;
-    },
-    [],
-  );
+  const [outputConfig, setOutputConfig] = useState(() => [
+    { label: "" },
+    { label: "" },
+    { label: "" },
+  ]);
 
-  const animateDiagram = useCallback(() => {
-    const isMobile = window.innerWidth < 768;
-    const { inputLines, outputLines, activeStates } = animData;
+  const [activeStates, setActiveStates] = useState<ActiveStates>({
+    blue: false,
+    pink: false,
+    logo: false,
+  });
 
-    const tl = gsap.timeline({
-      onComplete: () => animateDiagram(),
-      onUpdate: sync,
-    });
-    timelineRef.current = tl;
-
-    const set =
-      INPUT_FILE_SETS[Math.floor(Math.random() * INPUT_FILE_SETS.length)];
-    const selectedIndexes = new Set<number>();
-    while (selectedIndexes.size < 3)
-      selectedIndexes.add(Math.floor(Math.random() * inputLines.length));
-
-    Array.from(selectedIndexes).forEach((lineIdx, fileIdx) => {
-      const item = set[fileIdx];
-      const line = inputLines[lineIdx];
-      line.currentKey = item.key;
-      line.currentDefault = item.default;
-      line.label = t(item.key, item.default);
-      const activeColor = item.color || "#9fe6fd";
-      line.dotColor = activeColor;
-      line.glowColor = activeColor; // Thêm dòng này
-
-      tl.add(
-        animateSingleInput(line, isMobile),
-        fileIdx * (isMobile ? 0.4 : 0.2),
-      );
-    });
-
-    tl.set(activeStates, { blue: true }, isMobile ? ">-2" : ">-0.2")
-      .set(activeStates, { logo: true }, "<-0.3")
-      .set(activeStates, { pink: true }, "<+0.3");
-
-    tl.addLabel("outputs", "<");
-    outputLines.forEach((line, idx) => {
-      tl.add(
-        animateSingleOutput(line, idx, isMobile),
-        "outputs+=" + (isMobile ? 0.3 : 0.1) * idx,
-      );
-    });
-
-    if (!isMobile) {
-      tl.set(activeStates, { blue: false, pink: false }, ">-1");
-    }
-  }, [animData, sync, t, animateSingleInput, animateSingleOutput]);
-
+  // Lifecycle tracking to prevent memory leaks and state updates on unmounted component
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  // 1. Lắng nghe Scroll để kích hoạt cycle đầu tiên
+  useGSAP(
+    () => {
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: "center 100%",
         once: true,
-        onEnter: () => animateDiagram(),
+        onEnter: () => {
+          if (isMounted.current) {
+            setCycle(1);
+          }
+        },
       });
+    },
+    { scope: containerRef }
+  );
+
+  // 2. Khi cycle thay đổi, chọn ngẫu nhiên bộ input mới
+  useEffect(() => {
+    if (cycle === 0) return;
+    const set = INPUT_FILE_SETS[Math.floor(Math.random() * INPUT_FILE_SETS.length)];
+    const selectedIndexes = new Set<number>();
+    while (selectedIndexes.size < 3) {
+      selectedIndexes.add(Math.floor(Math.random() * INPUT_PATHS.length));
+    }
+    if (isMounted.current) {
+      setCycleData({
+        selectedIndexes: Array.from(selectedIndexes),
+        set,
+      });
+    }
+  }, [cycle]);
+
+  // 3. Đồng bộ hóa labels khi cycleData hoặc ngôn ngữ thay đổi
+  useEffect(() => {
+    if (!cycleData) return;
+    const { selectedIndexes, set } = cycleData;
+
+    setInputConfig((prev) => {
+      const next = prev.map((line) => ({
+        ...line,
+        label: "",
+      }));
+      selectedIndexes.forEach((lineIdx, fileIdx) => {
+        const item = set[fileIdx];
+        const activeColor = item.color || "#9fe6fd";
+        next[lineIdx] = {
+          path: INPUT_PATHS[lineIdx],
+          label: t(item.key, item.default),
+          dotColor: activeColor,
+          glowColor: activeColor,
+        };
+      });
+      return next;
     });
 
-    return () => {
-      ctx.revert();
-      if (timelineRef.current) timelineRef.current.kill();
-    };
-  }, [animateDiagram]);
+    setOutputConfig([
+      { label: t("hero.outputOffer", "Nhận được Offer") },
+      { label: t("hero.outputCulture", "Phù hợp văn hóa") },
+      { label: t("hero.outputSalary", "Lương hấp dẫn") },
+    ]);
+  }, [cycleData, t, i18n.language]);
+
+  // 4. Kích hoạt hiệu ứng GSAP cho vòng lặp mới khi config sẵn sàng
+  useGSAP(
+    () => {
+      if (!cycleData) return;
+
+      const isMobile = window.innerWidth < 768;
+      const { selectedIndexes } = cycleData;
+
+      if (isMounted.current) {
+        setActiveStates({ blue: false, pink: false, logo: false });
+      }
+
+      inputNodeRefs.current.forEach((node) => node?.setVisible(false));
+      inputNodeRefs.current.forEach((node) => node?.setLabelVisible(false));
+      outputNodeRefs.current.forEach((node) => node?.setVisible(false));
+      outputNodeRefs.current.forEach((node) => node?.setLabelVisible(false));
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          if (isMounted.current) {
+            setCycle((c) => c + 1);
+          }
+        },
+      });
+
+      // Line Inputs Animations
+      selectedIndexes.forEach((lineIdx, fileIdx) => {
+        const nodeRef = inputNodeRefs.current[lineIdx];
+        if (!nodeRef) return;
+
+        const singleInputTl = gsap.timeline();
+        singleInputTl.call(() => nodeRef.setVisible(true));
+
+        const animObj = { position: 0 };
+        if (isMobile) {
+          singleInputTl
+            .to(animObj, {
+              position: 1,
+              duration: 1.8,
+              ease: "power2.out",
+              onUpdate: () => nodeRef.updatePosition(animObj.position),
+            })
+            .call(() => nodeRef.setVisible(false), undefined, 0.5);
+        } else {
+          singleInputTl
+            .to(animObj, {
+              position: Math.random() * 0.1 + 0.4,
+              duration: 1,
+              ease: "expo.out",
+              onUpdate: () => nodeRef.updatePosition(animObj.position),
+            })
+            .call(() => nodeRef.setLabelVisible(true), undefined, 0.2)
+            .to(
+              animObj,
+              {
+                position: 1,
+                duration: 1.2,
+                ease: "power3.in",
+                onUpdate: () => nodeRef.updatePosition(animObj.position),
+              },
+              1.2
+            )
+            .call(() => nodeRef.setLabelVisible(false), undefined, 1.6)
+            .call(() => nodeRef.setVisible(false), undefined, 1.9);
+        }
+
+        tl.add(singleInputTl, fileIdx * (isMobile ? 0.4 : 0.2));
+      });
+
+      // Active state toggles
+      tl.call(
+        () => {
+          if (isMounted.current) {
+            setActiveStates((prev) => ({ ...prev, blue: true, logo: true }));
+          }
+        },
+        undefined,
+        isMobile ? ">-2" : ">-0.2"
+      );
+
+      tl.call(
+        () => {
+          if (isMounted.current) {
+            setActiveStates((prev) => ({ ...prev, pink: true }));
+          }
+        },
+        undefined,
+        isMobile ? ">-1.7" : "<+0.3"
+      );
+
+      tl.addLabel("outputs", "<");
+
+      // Line Outputs Animations
+      outputNodeRefs.current.forEach((nodeRef, idx) => {
+        if (!nodeRef) return;
+
+        const singleOutputTl = gsap.timeline();
+        const animObj = { position: 0 };
+
+        if (isMobile) {
+          singleOutputTl
+            .to(
+              animObj,
+              {
+                position: 0.7,
+                duration: 2,
+                ease: "power1.inOut",
+                onUpdate: () => nodeRef.updatePosition(animObj.position),
+              },
+              0.3
+            )
+            .call(() => nodeRef.setVisible(true), undefined, 0.75)
+            .call(() => nodeRef.setVisible(false), undefined, 1.2);
+        } else {
+          singleOutputTl
+            .to(
+              animObj,
+              {
+                position: (0.6 / 3) * (idx + 1) + 0.05,
+                duration: 1.5,
+                ease: "expo.out",
+                onUpdate: () => nodeRef.updatePosition(animObj.position),
+              },
+              0
+            )
+            .call(() => nodeRef.setVisible(true), undefined, 0)
+            .call(() => nodeRef.setLabelVisible(true), undefined, 0.4)
+            .to(
+              animObj,
+              {
+                position: 1,
+                duration: 1.5,
+                ease: "power3.in",
+                onUpdate: () => nodeRef.updatePosition(animObj.position),
+              },
+              2
+            )
+            .call(() => nodeRef.setLabelVisible(false), undefined, 2.5)
+            .call(() => nodeRef.setVisible(false), undefined, 3);
+        }
+
+        tl.add(singleOutputTl, "outputs+=" + (isMobile ? 0.3 : 0.1) * idx);
+      });
+
+      if (!isMobile) {
+        tl.call(
+          () => {
+            if (isMounted.current) {
+              setActiveStates((prev) => ({ ...prev, blue: false, pink: false }));
+            }
+          },
+          undefined,
+          ">-1"
+        );
+      }
+    },
+    { dependencies: [cycleData], scope: containerRef }
+  );
 
   return (
     <>
@@ -242,13 +329,13 @@ const HeroDiagram: React.FC = () => {
         className={styles.hero__diagram}
         id="hero-diagram"
       >
-        <SvgInputs inputLines={animData.inputLines} />
-        <SvgOutputs outputLines={animData.outputLines} />
-        <SvgBlueIndicator active={animData.activeStates.blue} />
-        <SvgPinkIndicator active={animData.activeStates.pink} />
+        <SvgInputs inputLines={inputConfig} nodeRefs={inputNodeRefs} />
+        <SvgOutputs outputLines={outputConfig} nodeRefs={outputNodeRefs} />
+        <SvgBlueIndicator active={activeStates.blue} />
+        <SvgPinkIndicator active={activeStates.pink} />
 
         <div
-          className={`${styles["vite-chip"]} ${animData.activeStates.logo ? styles.active : ""}`}
+          className={`${styles["vite-chip"]} ${activeStates.logo ? styles.active : ""}`}
         >
           <div className={styles["vite-chip__background"]}>
             <div className={styles["vite-chip__border"]} />
@@ -259,10 +346,8 @@ const HeroDiagram: React.FC = () => {
             <Image
               src="/logojobhunter.png"
               alt="Logo JobHunter"
-              // Cung cấp kích thước gốc để Next.js không báo lỗi và giữ tỉ lệ
               width={134}
               height={134}
-              // Giữ nguyên class cũ để không hỏng cấu trúc SCSS
               className={styles["vite-chip__logo"]}
               priority
             />
@@ -270,7 +355,7 @@ const HeroDiagram: React.FC = () => {
         </div>
       </div>
       <div
-        className={`${styles.hero__background} ${animData.activeStates.logo ? styles.active : ""}`}
+        className={`${styles.hero__background} ${activeStates.logo ? styles.active : ""}`}
       />
     </>
   );

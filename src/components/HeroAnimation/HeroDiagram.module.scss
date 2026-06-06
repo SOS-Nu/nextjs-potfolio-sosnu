@@ -112,25 +112,31 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border: 2px solid;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(
-      to bottom right,
-      rgba(0, 0, 0, 0) 60%,
-      rgba(255, 255, 255, 0.15) 65%,
-      rgba(0, 0, 0, 0) 90%
-    );
+    border-radius: 10px;
+    padding: 2px;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
     opacity: 0;
-    will-change: opacity, border;
-    transition: all 1s ease-in-out;
+    will-change: opacity;
+    transition: opacity 1s ease-in-out;
+    overflow: hidden;
 
-    @media (min-width: 768px) {
-      border-image-source: linear-gradient(
-        to bottom right,
-        rgba(0, 0, 0, 0) 50%,
-        rgba(255, 255, 255, 0.15) 60%,
-        rgba(0, 0, 0, 0) 90%
+    &::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(
+        from 0deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 60%
       );
+      will-change: transform;
     }
   }
 
@@ -186,9 +192,9 @@
     .vite-chip__edge {
       opacity: 1;
 
-      &.edge--animated {
+      &.edge--animated::before {
         @media (min-width: 768px) {
-          animation: rotateGradient 8s linear infinite;
+          animation: rotateGPU 8s linear infinite;
         }
       }
     }
@@ -332,45 +338,11 @@
   }
 }
 
-@keyframes rotateGradient {
-  0% {
-    border-image-source: linear-gradient(
-      to bottom right,
-      rgba(0, 0, 0, 0) 60%,
-      rgba(255, 255, 255, 0.15) 65%,
-      rgba(0, 0, 0, 0) 90%
-    );
+@keyframes rotateGPU {
+  from {
+    transform: rotate(0deg);
   }
-  25% {
-    border-image-source: linear-gradient(
-      to right top,
-      rgba(0, 0, 0, 0) 60%,
-      rgba(255, 255, 255, 0.15) 65%,
-      rgba(0, 0, 0, 0) 90%
-    );
-  }
-  50% {
-    border-image-source: linear-gradient(
-      to top left,
-      rgba(0, 0, 0, 0) 60%,
-      rgba(255, 255, 255, 0.15) 65%,
-      rgba(0, 0, 0, 0) 90%
-    );
-  }
-  75% {
-    border-image-source: linear-gradient(
-      to left bottom,
-      rgba(0, 0, 0, 0) 60%,
-      rgba(255, 255, 255, 0.15) 65%,
-      rgba(0, 0, 0, 0) 90%
-    );
-  }
-  100% {
-    border-image-source: linear-gradient(
-      to bottom right,
-      rgba(0, 0, 0, 0) 60%,
-      rgba(255, 255, 255, 0.15) 65%,
-      rgba(0, 0, 0, 0) 90%
-    );
+  to {
+    transform: rotate(360deg);
   }
 }

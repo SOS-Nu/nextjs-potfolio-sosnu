@@ -1,24 +1,22 @@
 "use client";
 
 import React from "react";
-import SvgNode from "../common/SvgNode";
+import SvgNode, { SvgNodeRef } from "../common/SvgNode";
 import styles from "./SvgInputs.module.scss";
 
 interface InputLine {
   path: string;
-  position?: number;
-  visible?: boolean;
   label?: string;
-  labelVisible?: boolean;
   dotColor: string;
   glowColor: string;
 }
 
 interface SvgInputsProps {
   inputLines: InputLine[];
+  nodeRefs: React.MutableRefObject<(SvgNodeRef | null)[]>;
 }
 
-const SvgInputs: React.FC<SvgInputsProps> = ({ inputLines }) => {
+const SvgInputs: React.FC<SvgInputsProps> = ({ inputLines, nodeRefs }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -42,10 +40,10 @@ const SvgInputs: React.FC<SvgInputsProps> = ({ inputLines }) => {
 
           {/* Component SvgNode xử lý dot và glow animation */}
           <SvgNode
+            ref={(el) => {
+              nodeRefs.current[index] = el;
+            }}
             path={line.path}
-            position={line.position}
-            visible={line.visible}
-            labelVisible={line.labelVisible}
             label={line.label}
             dotColor={line.dotColor}
             glowColor={line.glowColor}

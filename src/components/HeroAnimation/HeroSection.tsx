@@ -4,7 +4,7 @@ import React from "react";
 import HeroDiagram from "./HeroDiagram";
 import styles from "./HeroSection.module.scss";
 
-const HeroSection: React.FC<{ play?: boolean }> = ({ play = false }) => {
+const HeroSection: React.FC<{ play?: boolean }> = () => {
   return (
     <section className={styles.hero}>
       {/* Container này dùng để chứa Tagline/Text nếu có, giống bên Vue */}
