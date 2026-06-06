@@ -88,7 +88,7 @@ export default async function RootLayout({
           <AppContextProvider>
             <LanguageProvider initialLanguage={initialLang}>
               <AppHeader />
-              {children}
+              <main id="main-content">{children}</main>
               <AppFooter />
             </LanguageProvider>
           </AppContextProvider>

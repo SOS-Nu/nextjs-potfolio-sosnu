@@ -87,7 +87,7 @@ const About = () => {
                   </div>
                   <div>
                     <GlowCard identifier={`experience-5`}>
-                      <div className="p-3 relative">
+                      <div className="p-3 position-relative">
                         <div className="experience-container">
                           <div className="duration-text">
                             <p>20xx-20xx</p>

@@ -3,7 +3,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./HeroDiagram.module.scss";
 
@@ -56,7 +56,7 @@ const INPUT_FILE_SETS = [
 ];
 
 const HeroDiagram: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const inputNodeRefs = useRef<(SvgNodeRef | null)[]>([]);
@@ -65,26 +65,10 @@ const HeroDiagram: React.FC = () => {
   const isMounted = useRef(true);
 
   // States
-  const [cycle, setCycle] = useState(0);
   const [cycleData, setCycleData] = useState<{
     selectedIndexes: number[];
     set: typeof INPUT_FILE_SETS[number];
   } | null>(null);
-
-  const [inputConfig, setInputConfig] = useState(() =>
-    INPUT_PATHS.map((path) => ({
-      path,
-      label: "",
-      dotColor: "#9fe6fd",
-      glowColor: "#9fe6fd",
-    }))
-  );
-
-  const [outputConfig, setOutputConfig] = useState(() => [
-    { label: "" },
-    { label: "" },
-    { label: "" },
-  ]);
 
   const [activeStates, setActiveStates] = useState<ActiveStates>({
     blue: false,
@@ -100,6 +84,54 @@ const HeroDiagram: React.FC = () => {
     };
   }, []);
 
+  // Helper to trigger the next animation cycle in a single state update (preventing render cascading)
+  const triggerNextCycle = () => {
+    if (!isMounted.current) return;
+    const set = INPUT_FILE_SETS[Math.floor(Math.random() * INPUT_FILE_SETS.length)];
+    const selectedIndexes = new Set<number>();
+    while (selectedIndexes.size < 3) {
+      selectedIndexes.add(Math.floor(Math.random() * INPUT_PATHS.length));
+    }
+    setCycleData({
+      selectedIndexes: Array.from(selectedIndexes),
+      set,
+    });
+  };
+
+  // Derive input config dynamically to avoid storing redundant synced state (and extra renders)
+  const inputConfig = useMemo(() => {
+    const defaultPaths = INPUT_PATHS.map((path) => ({
+      path,
+      label: "",
+      dotColor: "#9fe6fd",
+      glowColor: "#9fe6fd",
+    }));
+
+    if (!cycleData) return defaultPaths;
+    const { selectedIndexes, set } = cycleData;
+
+    selectedIndexes.forEach((lineIdx, fileIdx) => {
+      const item = set[fileIdx];
+      const activeColor = item.color || "#9fe6fd";
+      defaultPaths[lineIdx] = {
+        path: INPUT_PATHS[lineIdx],
+        label: t(item.key, item.default),
+        dotColor: activeColor,
+        glowColor: activeColor,
+      };
+    });
+    return defaultPaths;
+  }, [cycleData, t]);
+
+  // Derive output config dynamically
+  const outputConfig = useMemo(() => {
+    return [
+      { label: t("hero.outputOffer", "Nhận được Offer") },
+      { label: t("hero.outputCulture", "Phù hợp văn hóa") },
+      { label: t("hero.outputSalary", "Lương hấp dẫn") },
+    ];
+  }, [t]);
+
   // 1. Lắng nghe Scroll để kích hoạt cycle đầu tiên
   useGSAP(
     () => {
@@ -108,60 +140,12 @@ const HeroDiagram: React.FC = () => {
         start: "center 100%",
         once: true,
         onEnter: () => {
-          if (isMounted.current) {
-            setCycle(1);
-          }
+          triggerNextCycle();
         },
       });
     },
     { scope: containerRef }
   );
-
-  // 2. Khi cycle thay đổi, chọn ngẫu nhiên bộ input mới
-  useEffect(() => {
-    if (cycle === 0) return;
-    const set = INPUT_FILE_SETS[Math.floor(Math.random() * INPUT_FILE_SETS.length)];
-    const selectedIndexes = new Set<number>();
-    while (selectedIndexes.size < 3) {
-      selectedIndexes.add(Math.floor(Math.random() * INPUT_PATHS.length));
-    }
-    if (isMounted.current) {
-      setCycleData({
-        selectedIndexes: Array.from(selectedIndexes),
-        set,
-      });
-    }
-  }, [cycle]);
-
-  // 3. Đồng bộ hóa labels khi cycleData hoặc ngôn ngữ thay đổi
-  useEffect(() => {
-    if (!cycleData) return;
-    const { selectedIndexes, set } = cycleData;
-
-    setInputConfig((prev) => {
-      const next = prev.map((line) => ({
-        ...line,
-        label: "",
-      }));
-      selectedIndexes.forEach((lineIdx, fileIdx) => {
-        const item = set[fileIdx];
-        const activeColor = item.color || "#9fe6fd";
-        next[lineIdx] = {
-          path: INPUT_PATHS[lineIdx],
-          label: t(item.key, item.default),
-          dotColor: activeColor,
-          glowColor: activeColor,
-        };
-      });
-      return next;
-    });
-
-    setOutputConfig([
-      { label: t("hero.outputOffer", "Nhận được Offer") },
-      { label: t("hero.outputCulture", "Phù hợp văn hóa") },
-      { label: t("hero.outputSalary", "Lương hấp dẫn") },
-    ]);
-  }, [cycleData, t, i18n.language]);
 
   // 4. Kích hoạt hiệu ứng GSAP cho vòng lặp mới khi config sẵn sàng
   useGSAP(
@@ -182,9 +166,7 @@ const HeroDiagram: React.FC = () => {
 
       const tl = gsap.timeline({
         onComplete: () => {
-          if (isMounted.current) {
-            setCycle((c) => c + 1);
-          }
+          triggerNextCycle();
         },
       });
 

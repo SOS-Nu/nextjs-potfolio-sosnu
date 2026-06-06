@@ -39,7 +39,7 @@ const Experience = () => {
               key={experience.id}
               identifier={`experience-${experience.id}`}
             >
-              <div className="p-3 relative">
+              <div className="p-3 position-relative">
                 {theme === "dark" && (
                   <Image
                     fill

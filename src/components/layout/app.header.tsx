@@ -28,7 +28,6 @@ function AppHeader() {
   // --- REDUX HOOKS ---
   const dispatch = useAppDispatch();
   const layoutConfig = useAppSelector((state) => state.app.layoutConfig);
-  const currentLanguageId = useAppSelector((state) => state.app.language);
 
   // Xác định theme hiện tại (dựa trên colorScheme hoặc config khác)
   const currentTheme = layoutConfig.theme;
@@ -53,12 +52,11 @@ function AppHeader() {
 
   const closeNav = () => setExpanded(false);
 
-  // --- EFFECTS ---
-  // Xử lý click outside để đóng menu mobile
+  // Xử lý click outside để đóng menu mobile (chỉ đăng ký khi menu đang mở)
   useEffect(() => {
+    if (!expanded) return;
     const handleOutsideClick = (event: MouseEvent) => {
       if (
-        expanded &&
         navRef.current &&
         !navRef.current.contains(event.target as Node)
       ) {
@@ -68,14 +66,6 @@ function AppHeader() {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [expanded]);
-
-  // Đồng bộ i18n với Redux khi load lần đầu (để chắc chắn đúng ngôn ngữ)
-  useEffect(() => {
-    const targetLang = currentLanguageId === LANG_VI_ID ? "vi" : "en";
-    if (i18n.language !== targetLang) {
-      i18n.changeLanguage(targetLang);
-    }
-  }, [currentLanguageId, i18n]);
 
   const getNavLinkClass = (path: string) => {
     return `nav-link ${currentPath === path ? "active" : ""}`;
