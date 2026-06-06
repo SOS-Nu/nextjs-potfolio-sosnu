@@ -6,8 +6,23 @@ export const APP_DATA = {
 };
 
 export const EXPERIENCES = [
-  {
+   {
     id: 1,
+    title: {
+      vi: "Developer SAP Intergration",  
+      en: "Developer SAP Intergration",
+    },
+    company: {
+      vi: "Công ty giải pháp Công ngệ Ong Vàng",
+      en: "BeeTech Solution",
+    },
+    duration: {
+      vi: "Tháng 3/2026 - Hiện tại",
+      en: "March 2026 - Present",
+    },
+  },
+  {
+    id: 2,
     title: {
       vi: "Lập Trình viên Fullstack(Fresher)",
       en: "Fullstack Developer(Fresher)",
@@ -22,7 +37,7 @@ export const EXPERIENCES = [
     },
   },
   {
-    id: 2,
+    id: 3,
     title: {
       vi: "Lập Trình Viên",
       en: "Internship Developer",
@@ -36,22 +51,8 @@ export const EXPERIENCES = [
       vi: "Tháng 8/2024 - Tháng 11/2024",
       en: "Aug 2024 - Nov 2024",
     },
-  },
-  // {
-  //   id: 3,
-  //   title: {
-  //     vi: "Dự án tự làm",
-  //     en: "Self Employed",
-  //   },
-  //   company: {
-  //     vi: "Học kiến thức mới mỗi ngày",
-  //     en: "Code and build something in everyday.",
-  //   },
-  //   duration: {
-  //     vi: "Tháng 1/2020 - Hiện tại",
-  //     en: "Jan 2020 - Present",
-  //   },
-  // },
+  }
+ 
 ];
 export const PROJECTSFeatured = [
   {
