@@ -52,6 +52,37 @@ export const EXPERIENCES = [
   //       en: "Aug 2024 - Nov 2024",
   //     },
   //   }
+  {
+    id: 2,
+    title: {
+      vi: "A secret makes a gentleman a gentleman",
+      en: "A secret makes a gentleman a gentleman",
+    },
+    company: {
+      vi: "A secret makes a gentleman a gentleman",
+      en: "A secret makes a gentleman a gentleman",
+    },
+    duration: {
+      vi: "Tháng 6/2025 - Tháng 12/2025",
+      en: "June 2025 - Dec 2025",
+    },
+  },
+  {
+    id: 3,
+    title: {
+      vi: "A secret makes a gentleman a gentleman",
+      en: "A secret makes a gentleman a gentleman",
+    },
+
+    company: {
+      vi: "A secret makes a gentleman a gentleman",
+      en: "A secret makes a gentleman a gentleman",
+    },
+    duration: {
+      vi: "Tháng 8/2024 - Tháng 11/2024",
+      en: "Aug 2024 - Nov 2024",
+    },
+  },
 ];
 export const PROJECTSFeatured = [
   {
