@@ -6,53 +6,52 @@ export const APP_DATA = {
 };
 
 export const EXPERIENCES = [
-   {
+  {
     id: 1,
     title: {
-      vi: "Developer SAP Intergration",  
-      en: "Developer SAP Intergration",
+      vi: "Software Engineer - Developer SAP Integration",
+      en: "Software Engineer - Developer SAP Integration",
     },
     company: {
       vi: "Công ty giải pháp Công ngệ Ong Vàng",
-      en: "BeeTech Solution",
+      en: "Bee Tech Solution",
     },
     duration: {
       vi: "Tháng 3/2026 - Hiện tại",
       en: "March 2026 - Present",
     },
   },
-  {
-    id: 2,
-    title: {
-      vi: "Lập Trình viên Fullstack(Fresher)",
-      en: "Fullstack Developer(Fresher)",
-    },
-    company: {
-      vi: "Phát Triển Hệ Thống CMMS - VietSoft ",
-      en: "CMMS - VietSoft Company Development Project",
-    },
-    duration: {
-      vi: "Tháng 6/2025 - Tháng 12/2025",
-      en: "June 2025 - Dec 2025",
-    },
-  },
-  {
-    id: 3,
-    title: {
-      vi: "Lập Trình Viên",
-      en: "Internship Developer",
-    },
-
-    company: {
-      vi: "THỰC TẬP TẠI CÔNG TY VIHAT SOFTWARE",
-      en: "Vihat Software Company (Internship)",
-    },
-    duration: {
-      vi: "Tháng 8/2024 - Tháng 11/2024",
-      en: "Aug 2024 - Nov 2024",
-    },
-  }
- 
+  //   {
+  //     id: 2,
+  //     title: {
+  //       vi: "Lập Trình viên Fullstack(Fresher)",
+  //       en: "Fullstack Developer(Fresher)",
+  //     },
+  //     company: {
+  //       vi: "Phát Triển Hệ Thống CMMS - VietSoft ",
+  //       en: "CMMS - VietSoft Company Development Project",
+  //     },
+  //     duration: {
+  //       vi: "Tháng 6/2025 - Tháng 12/2025",
+  //       en: "June 2025 - Dec 2025",
+  //     },
+  //   },
+  //   {
+  //     id: 3,
+  //     title: {
+  //       vi: "Lập Trình Viên",
+  //       en: "Internship Developer",
+  //     },
+  //
+  //     company: {
+  //       vi: "THỰC TẬP TẠI CÔNG TY VIHAT SOFTWARE",
+  //       en: "Vihat Software Company (Internship)",
+  //     },
+  //     duration: {
+  //       vi: "Tháng 8/2024 - Tháng 11/2024",
+  //       en: "Aug 2024 - Nov 2024",
+  //     },
+  //   }
 ];
 export const PROJECTSFeatured = [
   {
